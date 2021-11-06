@@ -46,4 +46,5 @@ public class KorisnikController {
 
         return  new ResponseEntity<KorisnikDTO>(korisnikDTO, HttpStatus.OK);
     }
+
 }

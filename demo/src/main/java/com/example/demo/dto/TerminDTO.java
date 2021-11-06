@@ -9,15 +9,17 @@ public class TerminDTO {
 
     private long id;
     private Date vreme;
+    private int brojMesta;
     private Trening trening;
 
     public TerminDTO(Termin t) {
-        this(t.getId(),t.getVreme(),t.getTrening());
+        this(t.getId(),t.getVreme(),t.getBrojMesta(),t.getTrening());
     }
 
-    public TerminDTO(long id, Date vreme, Trening trening) {
+    public TerminDTO(long id, Date vreme, int brojMesta, Trening trening) {
         this.id = id;
         this.vreme = vreme;
+        this.brojMesta = brojMesta;
         this.trening = trening;
     }
 
@@ -39,6 +41,14 @@ public class TerminDTO {
 
     public Trening getTrening() {
         return trening;
+    }
+
+    public int getBrojMesta() {
+        return brojMesta;
+    }
+
+    public void setBrojMesta(int brojMesta) {
+        this.brojMesta = brojMesta;
     }
 
     public void setTrening(Trening trening) {

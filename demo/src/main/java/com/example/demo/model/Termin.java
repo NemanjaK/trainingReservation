@@ -12,6 +12,7 @@ public class Termin {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private Date vreme;
+    private int brojMesta;
     @JsonIgnore
     @ManyToOne
     @JoinColumn
@@ -23,9 +24,10 @@ public class Termin {
     public Termin() {
     }
 
-    public Termin(long id, Date vreme, Trening trening, List<Rezervacija> rezervacije) {
+    public Termin(long id, Date vreme, int brojMesta, Trening trening, List<Rezervacija> rezervacije) {
         this.id = id;
         this.vreme = vreme;
+        this.brojMesta = brojMesta;
         this.trening = trening;
         this.rezervacije = rezervacije;
     }
@@ -44,6 +46,14 @@ public class Termin {
 
     public void setVreme(Date vreme) {
         this.vreme = vreme;
+    }
+
+    public int getBrojMesta() {
+        return brojMesta;
+    }
+
+    public void setBrojMesta(int brojMesta) {
+        this.brojMesta = brojMesta;
     }
 
     public Trening getTrening() {

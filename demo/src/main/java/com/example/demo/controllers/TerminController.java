@@ -48,6 +48,7 @@ public class TerminController {
 
         termin.setTrening(terminDTO.getTrening());
         termin.setVreme(terminDTO.getVreme());
+        termin.setBrojMesta(terminDTO.getBrojMesta());
         terminService.save(termin);
 
         return  new ResponseEntity<TerminDTO>(new TerminDTO(termin), HttpStatus.CREATED);

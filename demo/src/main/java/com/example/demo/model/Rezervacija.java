@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 
-@Entity
+//@Entity
 public class Rezervacija {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

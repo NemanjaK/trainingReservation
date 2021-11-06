@@ -2,7 +2,9 @@ package com.example.demo.controllers;
 
 import com.example.demo.dto.RezervacijeDTO;
 import com.example.demo.model.Rezervacija;
+import com.example.demo.model.Termin;
 import com.example.demo.service.impl.RezervacijaService;
+import com.example.demo.service.impl.TerminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -11,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -19,6 +23,9 @@ public class RezervacijeController {
 
     @Autowired
     RezervacijaService rezervacijaService;
+
+    @Autowired
+    TerminService terminService;
 
     @GetMapping(value = "/all")
     public ResponseEntity<List<RezervacijeDTO>> getAll(){
@@ -35,6 +42,7 @@ public class RezervacijeController {
         Rezervacija rezervacija = rezervacijaService.findOne(id);
         RezervacijeDTO rezervacijaDTO = new RezervacijeDTO(rezervacija);
 
+
         if(rezervacija == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -45,14 +53,22 @@ public class RezervacijeController {
     }
 
     @PostMapping(value = "/add")
-    public ResponseEntity<RezervacijeDTO> createReservation(@RequestBody RezervacijeDTO rezervacijeDTO){
+    public ResponseEntity<RezervacijeDTO> createReservation(@RequestBody RezervacijeDTO rezervacijeDTO) {
         Rezervacija rezervacija = new Rezervacija();
-        //rezervacija.setId(rezervacijeDTO.getId());
         rezervacija.setTermin(rezervacijeDTO.getTermin());
 
-        rezervacija = rezervacijaService.save((rezervacija));
+        Termin termin = terminService.findOne(rezervacijeDTO.getTermin().getId());
+        int brojMesta = termin.getBrojMesta();
 
-        return  new ResponseEntity<RezervacijeDTO>(new RezervacijeDTO(rezervacija), HttpStatus.CREATED);
+            if ( brojMesta < 1) {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            } else {
+                termin.setBrojMesta(brojMesta - 1);
+                rezervacija = rezervacijaService.save((rezervacija));
+
+                return new ResponseEntity<RezervacijeDTO>(new RezervacijeDTO(rezervacija), HttpStatus.CREATED);
+            }
+
     }
 
     @DeleteMapping(value = "/{id}")
