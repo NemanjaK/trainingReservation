@@ -4,22 +4,22 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 
-//@Entity
-public class Rezervacija {
+@Entity
+public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @JsonIgnore
     @ManyToOne
     @JoinColumn
-    private Termin termin;
+    private Term term;
 
-    public Rezervacija() {
+    public Reservation() {
     }
 
-    public Rezervacija(long id, Termin termin) {
+    public Reservation(long id, Term term) {
         this.id = id;
-        this.termin = termin;
+        this.term = term;
     }
 
     public long getId() {
@@ -30,11 +30,11 @@ public class Rezervacija {
         this.id = id;
     }
 
-    public Termin getTermin() {
-        return termin;
+    public Term getTerm() {
+        return term;
     }
 
-    public void setTermin(Termin termin) {
-        this.termin = termin;
+    public void setTerm(Term term) {
+        this.term = term;
     }
 }
