@@ -19,24 +19,24 @@ import java.util.List;
 public class ReservationController {
 
     @Autowired
-    ReservationService rezervacijaService;
+    ReservationService reservationService;
 
     @Autowired
-    TermServiceImpl terminService;
+    TermServiceImpl termService;
 
-    @GetMapping(value = "/all")
+    @GetMapping
     public ResponseEntity<List<ReservationDTO>> getAll(){
-        List<Reservation> reservations = rezervacijaService.findAll();
+        List<Reservation> reservations = reservationService.findAll();
         List<ReservationDTO> reservationsDTOS =  new ArrayList<ReservationDTO>();
-        for(Reservation r: reservations){
-            reservationsDTOS.add(new ReservationDTO(r));
-        }
+
+        reservations.forEach(reservation -> reservationsDTOS.add(new ReservationDTO(reservation)));
+
         return new ResponseEntity<List<ReservationDTO>>(reservationsDTOS, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<ReservationDTO> getOne(@PathVariable("id") Long id){
-        Reservation reservation = rezervacijaService.findOne(id);
+        Reservation reservation = reservationService.findOne(id);
         ReservationDTO reservationDTO = new ReservationDTO(reservation);
 
 
@@ -49,19 +49,21 @@ public class ReservationController {
 
     }
 
-    @PostMapping(value = "/add")
+    @PostMapping
     public ResponseEntity<ReservationDTO> createReservation(@RequestBody ReservationDTO reservationDTO) {
+        // razmisli o ovome
         Reservation reservation = new Reservation();
+
         reservation.setTerm(reservationDTO.getTerm());
 
-        Term term = terminService.findOne(reservationDTO.getTerm().getId());
+        Term term = termService.findOne(reservationDTO.getTerm().getId());
         int occupancy = term.getOccupancy();
 
             if ( occupancy < 1) {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             } else {
                 term.setOccupancy(occupancy - 1);
-                reservation = rezervacijaService.save((reservation));
+                reservation = reservationService.save((reservation));
 
                 return new ResponseEntity<ReservationDTO>(new ReservationDTO(reservation), HttpStatus.CREATED);
             }
@@ -70,11 +72,11 @@ public class ReservationController {
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteReservation(@PathVariable("id") Long id){
-        Reservation reservation = rezervacijaService.findOne(id);
+        Reservation reservation = reservationService.findOne(id);
         if(reservation == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        rezervacijaService.delete(reservation);
+        reservationService.delete(reservation);
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 }

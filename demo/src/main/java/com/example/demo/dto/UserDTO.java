@@ -1,5 +1,7 @@
 package com.example.demo.dto;
 
+import com.example.demo.enums.Role;
+import com.example.demo.enums.TrainingType;
 import com.example.demo.model.User;
 
 public class UserDTO {
@@ -10,12 +12,14 @@ public class UserDTO {
     private String password;
     private String email;
     private String phoneNumber;
-    private String role;
+    private Role role;
+
+    private TrainingType trainingType;
 
     public UserDTO() {
     }
 
-    public UserDTO(long id, String name, String lastName, String password, String email, String role, String phoneNumber) {
+    public UserDTO(long id, String name, String lastName, String password, String email, String phoneNumber, Role role, TrainingType trainingType) {
         this.id = id;
         this.name = name;
         this.lastName = lastName;
@@ -23,10 +27,11 @@ public class UserDTO {
         this.email = email;
         this.role = role;
         this.phoneNumber = phoneNumber;
+        this.trainingType = trainingType;
     }
 
     public UserDTO(User k) {
-        this(k.getId(),k.getName(),k.getLastName(),k.getPassword(),k.getEmail(),k.getPhoneNumber(),k.getRole().toString());
+        this(k.getId(),k.getName(),k.getLastName(),k.getPassword(),k.getEmail(),k.getPhoneNumber(), k.getRole(), k.getTrainingType());
     }
 
 
@@ -78,11 +83,19 @@ public class UserDTO {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
+    }
+
+    public TrainingType getTrainingType() {
+        return trainingType;
+    }
+
+    public void setTrainingType(TrainingType trainingType) {
+        this.trainingType = trainingType;
     }
 }

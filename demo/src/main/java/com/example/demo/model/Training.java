@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import com.example.demo.enums.TrainingType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -13,7 +14,7 @@ public class Training {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String description;
-    private String typeOfTraining;
+    private TrainingType typeOfTraining;
     @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate dateOfTraining;
     @JsonIgnore
@@ -26,7 +27,7 @@ public class Training {
     public Training() {
     }
 
-    public Training(Long id, String description, String typeOfTraining, LocalDate dateOfTraining, List<Result> results, List<Term> terms) {
+    public Training(Long id, String description, TrainingType typeOfTraining, LocalDate dateOfTraining, List<Result> results, List<Term> terms) {
         this.id = id;
         this.description = description;
         this.typeOfTraining = typeOfTraining;
@@ -51,11 +52,11 @@ public class Training {
         this.description = description;
     }
 
-    public String getTypeOfTraining() {
+    public TrainingType getTypeOfTraining() {
         return typeOfTraining;
     }
 
-    public void setTypeOfTraining(String typeOfTraining) {
+    public void setTypeOfTraining(TrainingType typeOfTraining) {
         this.typeOfTraining = typeOfTraining;
     }
 

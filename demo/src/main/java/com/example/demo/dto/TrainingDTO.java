@@ -1,5 +1,6 @@
 package com.example.demo.dto;
 
+import com.example.demo.enums.TrainingType;
 import com.example.demo.model.Training;
 
 import java.time.LocalDate;
@@ -8,13 +9,13 @@ public class TrainingDTO {
 
     private Long id;
     private String description;
-    private String typeOfTraining;
+    private TrainingType typeOfTraining;
     private LocalDate dateOfTraining;
 
     public TrainingDTO() {
     }
 
-    public TrainingDTO(Long id, String description,String typeOfTraining,LocalDate dateOfTraining) {
+    public TrainingDTO(Long id, String description,TrainingType typeOfTraining,LocalDate dateOfTraining) {
         this.id = id;
         this.description = description;
         this.typeOfTraining = typeOfTraining;
@@ -41,11 +42,11 @@ public class TrainingDTO {
         this.description = description;
     }
 
-    public String getTypeOfTraining() {
+    public TrainingType getTypeOfTraining() {
         return typeOfTraining;
     }
 
-    public void setTypeOfTraining(String typeOfTraining) {
+    public void setTypeOfTraining(TrainingType typeOfTraining) {
         this.typeOfTraining = typeOfTraining;
     }
 

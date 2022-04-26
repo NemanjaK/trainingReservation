@@ -1,8 +1,7 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.dto.UserDTO;
 import com.example.demo.model.User;
-import com.example.demo.model.Reservation;
-import com.example.demo.repository.UserRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,5 +33,24 @@ public class UserServiceImpl implements UserService {
     @Override
     public void remove(User user) {
         userRepository.delete(user);
+    }
+
+    @Override
+    public User addUser(UserDTO userDTO) {
+        User user = new User();
+        user.setEmail(userDTO.getEmail());
+        user.setName(userDTO.getName());
+        user.setPassword(userDTO.getPassword());
+        user.setPhoneNumber(userDTO.getPhoneNumber());
+        user.setRole(userDTO.getRole());
+        user.setTrainingType(userDTO.getTrainingType());
+        userRepository.save(user);
+
+        return user;
+    }
+
+    @Override
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 }

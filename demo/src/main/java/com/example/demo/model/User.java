@@ -1,9 +1,13 @@
 package com.example.demo.model;
 
 import com.example.demo.enums.Role;
+import com.example.demo.enums.TrainingType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -17,6 +21,8 @@ public class User {
     private String email;
     private String phoneNumber;
     private Role role;
+    private TrainingType trainingType;
+
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Result> results;
@@ -24,7 +30,7 @@ public class User {
     public User() {
     }
 
-    public User(long id, String name, String lastName, String password, String email, String phoneNumber, Role role, List<Result> results) {
+    public User(long id, String name, String lastName, String password, String email, String phoneNumber, Role role, List<Result> results, TrainingType trainingType) {
         this.id = id;
         this.name = name;
         this.lastName = lastName;
@@ -33,6 +39,7 @@ public class User {
         this.phoneNumber = phoneNumber;
         this.role = role;
         this.results = results;
+        this.trainingType = trainingType;
     }
 
     public long getId() {
@@ -97,5 +104,20 @@ public class User {
 
     public void setResults(List<Result> results) {
         this.results = results;
+    }
+
+    public TrainingType getTrainingType() {
+        return trainingType;
+    }
+
+    public void setTrainingType(TrainingType trainingType) {
+        this.trainingType = trainingType;
+    }
+
+    @JsonIgnore
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<Role> roles = new ArrayList<>();
+        roles.add(this.role);
+        return roles;
     }
 }

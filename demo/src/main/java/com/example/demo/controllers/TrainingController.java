@@ -24,12 +24,9 @@ public class TrainingController {
 
     @GetMapping
     public ResponseEntity<List<TrainingDTO>> getAll(@RequestParam(name = "dateOfTraining", defaultValue = "")  @DateTimeFormat(pattern="yyyy-MM-dd") LocalDate dateOfTraining){
-        System.out.println(dateOfTraining + "S");
         List<Training> trainings = trainingService.findAllByDateOfTraining(dateOfTraining);
         List<TrainingDTO> trainingsDTO =  new ArrayList<TrainingDTO>();
-        for(Training t: trainings){
-            trainingsDTO.add(new TrainingDTO(t));
-        }
+        trainings.forEach(training -> trainingsDTO.add(new TrainingDTO(training)));
         return new ResponseEntity<List<TrainingDTO>>(trainingsDTO, HttpStatus.OK);
     }
 
@@ -55,7 +52,7 @@ public class TrainingController {
 
         return  new ResponseEntity<TrainingDTO>(trainingDTO, HttpStatus.OK);
     }
-    @PostMapping(value = "/add")
+    @PostMapping
     public ResponseEntity<TrainingDTO> createReservation(@RequestBody TrainingDTO treningDTO){
         Training training = new Training();
 

@@ -18,13 +18,12 @@ public class ResultController {
     @Autowired
     ResultService resultService;
 
-    @GetMapping(value = "/all")
+    @GetMapping
     public ResponseEntity<List<ResultDTO>> getAll(){
         List<Result> results = resultService.findAll();
-        List<ResultDTO> resultsDTO =  new ArrayList<ResultDTO>();
-        for(Result r: results){
-            resultsDTO.add(new ResultDTO(r));
-        }
+        List<ResultDTO> resultsDTO =  new ArrayList<>();
+        results.forEach(result -> resultsDTO.add(new ResultDTO(result)));
+
         return new ResponseEntity<List<ResultDTO>>(resultsDTO, HttpStatus.OK);
     }
 

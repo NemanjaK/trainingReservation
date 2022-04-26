@@ -1,8 +1,10 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.time.OffsetDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -11,6 +13,7 @@ public class Term {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @Temporal(TemporalType.DATE)
     private Date time;
     private int occupancy;
     @JsonIgnore
