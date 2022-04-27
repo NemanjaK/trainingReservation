@@ -3,6 +3,7 @@ import antlr.Token;
 import com.example.demo.dto.LoginDTO;
 import com.example.demo.dto.UserDTO;
 import com.example.demo.model.User;
+import com.example.demo.repository.UserRepository;
 import com.example.demo.security.LoginResponse;
 import com.example.demo.security.TokenHelper;
 import com.example.demo.service.interfaces.UserService;
@@ -14,6 +15,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -30,16 +32,30 @@ public class UserController {
     AuthenticationManager authenticationManager;
     UserDetailsService userDetailsService;
 
+    PasswordEncoder passwordEncoder;
+
+    UserRepository userRepository;
+
     @Autowired
-    public UserController(UserService userService, AuthenticationManager authenticationManager, UserDetailsService userDetailsService, TokenHelper tokenHelper){
+    public UserController(UserService userService, AuthenticationManager authenticationManager, UserDetailsService userDetailsService, TokenHelper tokenHelper, PasswordEncoder passwordEncoder, UserRepository userRepository){
         this.userService = userService;
         this.authenticationManager = authenticationManager;
         this.userDetailsService = userDetailsService;
         this.tokenHelper = tokenHelper;
+        this.passwordEncoder = passwordEncoder;
+        this.userRepository = userRepository;
     }
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginDTO user) {
+        User initUser = userService.findByEmail(user.getEmail());
+        if(initUser != null && initUser.isStatus() == false){
+            initUser.setPassword(passwordEncoder.encode(user.getPassword()));
+            initUser.setStatus(true);
+            userRepository.save(initUser);
+            UserDetails details = userDetailsService.loadUserByUsername(user.getEmail());
+            return ResponseEntity.ok(new LoginResponse(tokenHelper.generateToken(details), initUser.getEmail(), initUser.getRole().getAuthority()));
+        }
         try {
             UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword());
             authenticationManager.authenticate(token);

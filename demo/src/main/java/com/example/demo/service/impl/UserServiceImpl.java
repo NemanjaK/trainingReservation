@@ -44,6 +44,7 @@ public class UserServiceImpl implements UserService {
         user.setPhoneNumber(userDTO.getPhoneNumber());
         user.setRole(userDTO.getRole());
         user.setTrainingType(userDTO.getTrainingType());
+        user.setStatus(false);
         userRepository.save(user);
 
         return user;

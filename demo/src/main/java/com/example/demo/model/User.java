@@ -23,6 +23,8 @@ public class User {
     private Role role;
     private TrainingType trainingType;
 
+    private boolean status;
+
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Result> results;
@@ -30,7 +32,7 @@ public class User {
     public User() {
     }
 
-    public User(long id, String name, String lastName, String password, String email, String phoneNumber, Role role, List<Result> results, TrainingType trainingType) {
+    public User(long id, String name, String lastName, String password, String email, String phoneNumber, Role role, List<Result> results, TrainingType trainingType, boolean status) {
         this.id = id;
         this.name = name;
         this.lastName = lastName;
@@ -40,6 +42,7 @@ public class User {
         this.role = role;
         this.results = results;
         this.trainingType = trainingType;
+        this.status = status;
     }
 
     public long getId() {
@@ -112,6 +115,14 @@ public class User {
 
     public void setTrainingType(TrainingType trainingType) {
         this.trainingType = trainingType;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 
     @JsonIgnore
