@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.Date;
 import java.util.List;
@@ -13,8 +14,8 @@ public class Term {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Temporal(TemporalType.DATE)
-    private Date time;
+    @JsonFormat(pattern="yyyy-MM-dd")
+    private LocalDate time;
     private int occupancy;
     @JsonIgnore
     @ManyToOne
@@ -27,6 +28,20 @@ public class Term {
     public Term() {
     }
 
+    public Term(long id, LocalDate time, int occupancy) {
+        this.id = id;
+        this.time = time;
+        this.occupancy = occupancy;
+    }
+
+    public Term(long id, LocalDate time, int occupancy, Training training, List<Reservation> reservations) {
+        this.id = id;
+        this.time = time;
+        this.occupancy = occupancy;
+        this.training = training;
+        this.reservations = reservations;
+    }
+
     public long getId() {
         return id;
     }
@@ -35,11 +50,11 @@ public class Term {
         this.id = id;
     }
 
-    public Date getTime() {
+    public LocalDate getTime() {
         return time;
     }
 
-    public void setTime(Date time) {
+    public void setTime(LocalDate time) {
         this.time = time;
     }
 

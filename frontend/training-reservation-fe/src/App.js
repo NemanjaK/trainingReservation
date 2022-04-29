@@ -7,6 +7,8 @@ import Home from './components/Home.js';
 import Footer from './components/Layout/Footer';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import Login from './components/Auth/Login';
+import Admin from './components/Admin.js';
+import Members from './components/Members.js';
 
 
 function App() {
@@ -29,6 +31,12 @@ function App() {
           <Redirect from='/' to='/home' exact/>
           <Route path='/home' exact>
               <Home/>
+          </Route>
+          <Route path='/admin' exact>
+              <Admin/>
+          </Route>
+          <Route path='/members' exact>
+              <Members/>
           </Route>
         </Switch>      
       <Footer/>

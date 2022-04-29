@@ -2,17 +2,21 @@ package com.example.demo.dto;
 
 import com.example.demo.model.Term;
 import com.example.demo.model.Training;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class TermDTO {
 
     private long id;
-    private Date time;
+    @JsonFormat(pattern="yyyy-MM-dd")
+
+    private LocalDate time;
     private int occupancy;
     private Training training;
 
-    public TermDTO(long id, Date time, int occupancy, Training training) {
+    public TermDTO(long id, LocalDate time, int occupancy, Training training) {
         this.id = id;
         this.time = time;
         this.occupancy = occupancy;
@@ -32,11 +36,11 @@ public class TermDTO {
         this.id = id;
     }
 
-    public Date getTime() {
+    public LocalDate getTime() {
         return time;
     }
 
-    public void setTime(Date time) {
+    public void setTime(LocalDate time) {
         this.time = time;
     }
 

@@ -1,8 +1,11 @@
 import React from "react";
 import { MDBFooter } from 'mdb-react-ui-kit';
+import styles from './Footer.module.css';
+
 
 const Footer = () => {
   return (   
+    <div className={styles.footer}>
     <MDBFooter bgColor='light' className='text-center text-lg-start text-muted'>
       <section className='d-flex justify-content-center justify-content-lg-between p-4 border-bottom'>
         <div className='me-5 d-none d-lg-block'>
@@ -119,6 +122,7 @@ const Footer = () => {
         </a>
       </div>
     </MDBFooter>
+    </div>
   );
 };
 

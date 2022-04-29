@@ -26,9 +26,11 @@ import java.util.stream.Stream;
 @RequestMapping("/api/terms")
 public class TermController {
 
-    LocalDate today = LocalDate.now();
-    LocalDate tomorrow = today.plus(1, ChronoUnit.DAYS);
-    LocalDate yesterday = tomorrow.minusDays(2);
+    final LocalDate today = LocalDate.now();
+    final LocalDate tomorrow = today.plus(1, ChronoUnit.DAYS);
+    final LocalDate yesterday = tomorrow.minusDays(2);
+
+    final LocalDate nextMonth = today.plus(1 , ChronoUnit.MONTHS);
 
     @Autowired
     TermService termService;
@@ -42,6 +44,7 @@ public class TermController {
     }
     @GetMapping
     public ResponseEntity<List<TermDTO>> getAll(){
+        System.out.println(nextMonth);
         List<Term> terms = termService.findAll();
         List<TermDTO> termsDTO =  new ArrayList<>();
         terms.forEach(term -> termsDTO.add(new TermDTO(term)));

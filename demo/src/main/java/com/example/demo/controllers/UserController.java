@@ -1,5 +1,4 @@
 package com.example.demo.controllers;
-import antlr.Token;
 import com.example.demo.dto.LoginDTO;
 import com.example.demo.dto.UserDTO;
 import com.example.demo.model.User;
@@ -8,6 +7,7 @@ import com.example.demo.security.LoginResponse;
 import com.example.demo.security.TokenHelper;
 import com.example.demo.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,6 +18,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,12 +71,14 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<UserDTO>> getAll(){
-        List<User> users = userService.findAll();
+    public ResponseEntity<?> getAll(Pageable pagable){
+        Page<User> users = userService.findAll(pagable);
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("total", String.valueOf(users.getTotalPages()));
         List<UserDTO> usersDTO = new ArrayList<>();
-        users.forEach(user -> usersDTO.add(new UserDTO(user)));
+        users.getContent().forEach(user -> usersDTO.add(new UserDTO(user)));
 
-        return new ResponseEntity<List<UserDTO>>(usersDTO, HttpStatus.OK);
+        return ResponseEntity.ok().headers(headers).body(usersDTO);
     }
 
     @GetMapping(value = "/{id}")
@@ -89,10 +93,13 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody UserDTO userDTO){
-        User user = userService.addUser(userDTO);
-
-        return new ResponseEntity<User>(user, HttpStatus.OK) ;
+    public ResponseEntity<?> createUser(@RequestBody UserDTO userDTO){
+        User existUser = this.userService.findByEmail(userDTO.getEmail());
+        if(existUser == null){
+            User user = userService.addUser(userDTO);
+            return new ResponseEntity<User>(user, HttpStatus.OK) ;
+        }
+        return new ResponseEntity<>("User already exist!", HttpStatus.BAD_REQUEST);
     }
 
 }

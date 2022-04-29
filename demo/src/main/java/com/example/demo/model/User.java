@@ -2,10 +2,12 @@ package com.example.demo.model;
 
 import com.example.demo.enums.Role;
 import com.example.demo.enums.TrainingType;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -22,6 +24,8 @@ public class User {
     private String phoneNumber;
     private Role role;
     private TrainingType trainingType;
+    @JsonFormat(pattern="yyyy-MM-dd")
+    private LocalDate membershipExpirationDate;
 
     private boolean status;
 
@@ -32,7 +36,8 @@ public class User {
     public User() {
     }
 
-    public User(long id, String name, String lastName, String password, String email, String phoneNumber, Role role, List<Result> results, TrainingType trainingType, boolean status) {
+    public User(long id, String name, String lastName, String password, String email, String phoneNumber,
+                Role role, List<Result> results, TrainingType trainingType, boolean status, LocalDate membershipExpirationDate) {
         this.id = id;
         this.name = name;
         this.lastName = lastName;
@@ -43,6 +48,7 @@ public class User {
         this.results = results;
         this.trainingType = trainingType;
         this.status = status;
+        this.membershipExpirationDate = membershipExpirationDate;
     }
 
     public long getId() {
@@ -123,6 +129,14 @@ public class User {
 
     public void setStatus(boolean status) {
         this.status = status;
+    }
+
+    public LocalDate getMembershipExpirationDate() {
+        return membershipExpirationDate;
+    }
+
+    public void setMembershipExpirationDate(LocalDate membershipExpirationDate) {
+        this.membershipExpirationDate = membershipExpirationDate;
     }
 
     @JsonIgnore

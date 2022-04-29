@@ -1,12 +1,14 @@
 import { Fragment } from 'react';
 import useInput from '../../hooks/use-input';
 import style from './Login.module.css'
-import clsx from  'clsx';
+import { urlConfig } from '../../urlConfig';
+import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 
 const isNotEmpty = (value) => value.trim() !== '';
 const isEmail = (value) => value.includes('@');
 
 const Login = (props) => {
+  const navigate = useLocation()
 
     const {
         value: emailValue,
@@ -17,6 +19,7 @@ const Login = (props) => {
     } = useInput(isEmail);
 
     const {
+        value: passwordValue,
         isValud: passwordIsValid,
         hasError: passwrodHasError,
         valueChangeHandler: passwordChangeHandler,
@@ -36,13 +39,43 @@ const Login = (props) => {
     const submitHandler = event =>{
         event.preventDefault();
 
-        if (!formIsValid){
+        if (formIsValid){
+            login();
+            console.log('Submitted');
+            console.log(emailValue);
+            console.log(passwordValue);
             return;
         }
+    }
 
-        console.log('Submitted');
-        console.log(emailValue);
+    const login = () => {
+    const LoginDTO = { email: emailValue, password: passwordValue}
+    const requestOptions = {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+      body: JSON.stringify(LoginDTO),
+    };
 
+    fetch(`${urlConfig.trainingUrl}/api/users/login`, requestOptions)
+      .then((response) => {
+        if (!response.ok) {
+          return Promise.reject(response);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data)
+        localStorage.setItem("user", JSON.stringify(data));
+
+        navigate("/")
+        window.location.reload()
+      })
+      .catch((error) => {
+        console.log(error);
+      });
     }
 
   

@@ -7,10 +7,13 @@ import com.example.demo.service.impl.ReservationServiceImpl;
 import com.example.demo.service.impl.TermServiceImpl;
 import com.example.demo.service.interfaces.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import org.springframework.data.domain.Pageable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,13 +28,14 @@ public class ReservationController {
     TermServiceImpl termService;
 
     @GetMapping
-    public ResponseEntity<List<ReservationDTO>> getAll(){
-        List<Reservation> reservations = reservationService.findAll();
+    public ResponseEntity<?> getAll(Pageable pageable){
+        Page<Reservation> reservations = reservationService.findAll(pageable);
         List<ReservationDTO> reservationsDTOS =  new ArrayList<ReservationDTO>();
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("total", String.valueOf(reservations.getTotalPages()));
+        reservations.getContent().forEach(reservation -> reservationsDTOS.add(new ReservationDTO(reservation)));
 
-        reservations.forEach(reservation -> reservationsDTOS.add(new ReservationDTO(reservation)));
-
-        return new ResponseEntity<List<ReservationDTO>>(reservationsDTOS, HttpStatus.OK);
+        return  ResponseEntity.ok().headers(headers).body(reservationsDTOS);
     }
 
     @GetMapping(value = "/{id}")
@@ -39,14 +43,10 @@ public class ReservationController {
         Reservation reservation = reservationService.findOne(id);
         ReservationDTO reservationDTO = new ReservationDTO(reservation);
 
-
         if(reservation == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
         return  new ResponseEntity<ReservationDTO>(reservationDTO, HttpStatus.OK);
-
-
     }
 
     @PostMapping
@@ -58,16 +58,13 @@ public class ReservationController {
 
         Term term = termService.findOne(reservationDTO.getTerm().getId());
         int occupancy = term.getOccupancy();
-
             if ( occupancy < 1) {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             } else {
                 term.setOccupancy(occupancy - 1);
                 reservation = reservationService.save((reservation));
-
                 return new ResponseEntity<ReservationDTO>(new ReservationDTO(reservation), HttpStatus.CREATED);
             }
-
     }
 
     @DeleteMapping(value = "/{id}")
