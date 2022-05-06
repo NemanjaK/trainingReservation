@@ -2,13 +2,16 @@ import { Fragment } from 'react';
 import useInput from '../../hooks/use-input';
 import style from './Login.module.css'
 import { urlConfig } from '../../urlConfig';
-import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
+import { useHistory } from "react-router-dom";
+import { useDispatch } from 'react-redux';
+import { authActions } from '../../store/auth';
 
 const isNotEmpty = (value) => value.trim() !== '';
 const isEmail = (value) => value.includes('@');
 
 const Login = (props) => {
-  const navigate = useLocation()
+  const history = useHistory()
+  const dispatch = useDispatch();
 
     const {
         value: emailValue,
@@ -41,6 +44,7 @@ const Login = (props) => {
 
         if (formIsValid){
             login();
+            dispatch(authActions.login());
             console.log('Submitted');
             console.log(emailValue);
             console.log(passwordValue);
@@ -70,7 +74,7 @@ const Login = (props) => {
         console.log(data)
         localStorage.setItem("user", JSON.stringify(data));
 
-        navigate("/")
+        history.push("/home")
         window.location.reload()
       })
       .catch((error) => {

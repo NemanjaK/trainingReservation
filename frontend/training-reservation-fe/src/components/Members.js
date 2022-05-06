@@ -11,8 +11,12 @@ const Members = () => {
   const [page, setPage] = useState(0);
 
     useEffect(() => {
-
-      fetch(`http://localhost:8080/api/users?size=10&page=${page}`)
+      const token = JSON.parse(localStorage.getItem('user')).token
+      fetch(`http://localhost:8080/api/users?size=10&page=${page}`, {
+        headers:{
+            'Authorization' : `Bearer ${token}`,
+        } 
+    })
         .then((response) => {
           const header = response.headers.get('total');
           setTotal(header)

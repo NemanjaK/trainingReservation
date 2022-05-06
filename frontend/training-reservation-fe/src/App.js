@@ -9,6 +9,7 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import Login from './components/Auth/Login';
 import Admin from './components/Admin.js';
 import Members from './components/Members.js';
+import Profile from './components/Profile';
 
 
 function App() {
@@ -37,6 +38,9 @@ function App() {
           </Route>
           <Route path='/members' exact>
               <Members/>
+          </Route>
+          <Route path='/profile' exact>
+              <Profile/>
           </Route>
         </Switch>      
       <Footer/>

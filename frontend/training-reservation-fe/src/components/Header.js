@@ -1,7 +1,33 @@
 import { NavLink } from 'react-router-dom';
 import styles from './Header.module.css';
+import { useHistory } from "react-router-dom";
+import { useSelector, useDispatch } from 'react-redux';
+import { authActions } from '../store/auth';
+
 
 const Header = (props) => {
+    const history = useHistory()
+    const isAuth = useSelector(state => state.auth.isAuthenticated);
+    const dispatch = useDispatch();
+
+
+    const LogoutHandler = () => {
+        localStorage.clear();
+        dispatch(authActions.logout());
+        history.push("/home")
+    }
+
+    let button;
+    if(isAuth){
+        button = <button className={styles.button} onClick={LogoutHandler}>
+        <span>Logout</span>
+    </button>;
+    } else {
+     button = <button className={styles.button} onClick={props.onClick}>
+        <span>Login</span>
+     </button>;
+    }
+
     return (
         <header className={styles.header}>
             <div className={styles.logo}>
@@ -35,9 +61,7 @@ const Header = (props) => {
                 </ul>
             </nav>
             <div>
-            <button className={styles.button} onClick={props.onClick}>
-                <span>Login</span>
-            </button>
+            {button}
             </div>
         </header>
     )

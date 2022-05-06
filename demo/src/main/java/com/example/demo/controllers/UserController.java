@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.*;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,6 +72,13 @@ public class UserController {
         }
     }
 
+    @GetMapping("/profile")
+    public ResponseEntity<UserDTO> getProfile(Principal principal){
+        User user = userService.findByEmail(principal.getName());
+        UserDTO userDTO = new UserDTO(user);
+        return new ResponseEntity<UserDTO>(userDTO, HttpStatus.OK);
+    }
+
     @GetMapping
     public ResponseEntity<?> getAll(Pageable pagable){
         Page<User> users = userService.findAll(pagable);
@@ -100,6 +109,21 @@ public class UserController {
             return new ResponseEntity<User>(user, HttpStatus.OK) ;
         }
         return new ResponseEntity<>("User already exist!", HttpStatus.BAD_REQUEST);
+    }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<UserDTO> updateProfile(@PathVariable("id") Long id, @RequestBody UserDTO userDetails){
+        User user = userService.findOne(id);
+
+        user.setName(userDetails.getName());
+        user.setLastName(user.getLastName());
+        user.setEmail(user.getEmail());
+        user.setPhoneNumber(user.getPhoneNumber());
+        userService.save(user);
+
+        UserDTO userDTO = new UserDTO(user);
+
+        return new ResponseEntity<>(userDTO, HttpStatus.OK);
     }
 
 }
