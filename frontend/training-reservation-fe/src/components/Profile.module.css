@@ -9,16 +9,40 @@
   filter: grayscale(30%);
 }
 .subject {
+  font-family: Georgia, serif;
   text-align: center;
+  padding: 0.2rem;
+
 }
 .button{
-  text-align: center;
-  
+  margin: 4px 2px;
+  border-radius: 2rem;
+  font: inherit;
+  position: relative;
+  cursor: pointer;
+  left: 6.7rem;
+  padding: 0.2rem;
+}
+.button:hover,
+.button:active {
+    background-color: #5a1a01;
+    border-color: #5a1a01 ;
+    color: white;
 }
 
-.card {
-  
-  background: #ffffff;
+.profile input {
+  padding: 0.2rem;
+}
+.profile label {
+  padding: 0.2rem;
+}
+
+.profile {
+  background-color: #f1f1f1;
+  opacity: 0.9;
+  font-family: arial, sans-serif;
+  margin-left:auto; 
+  margin-right:auto;
   border-radius: 10px;
   border: 0;
   margin-bottom: 1rem;

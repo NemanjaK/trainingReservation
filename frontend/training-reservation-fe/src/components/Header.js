@@ -1,20 +1,19 @@
 import { NavLink } from 'react-router-dom';
 import styles from './Header.module.css';
-import { useHistory } from "react-router-dom";
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { authActions } from '../store/auth';
-
+import store from '../store/store';
 
 const Header = (props) => {
-    const history = useHistory()
-    const isAuth = useSelector(state => state.auth.isAuthenticated);
+
+    const isAuth = store.getState().isAuthenticated;
     const dispatch = useDispatch();
 
-
+    console.log(isAuth)
     const LogoutHandler = () => {
         localStorage.clear();
         dispatch(authActions.logout());
-        history.push("/home")
+        window.location.replace("/home")
     }
 
     let button;
@@ -35,7 +34,6 @@ const Header = (props) => {
                 <img src={require("../assets/crossfitlogo.jpg")} alt="logo"/>
             </a>
             </div>
-            {/* <h1 className={styles.logo}>CrossFit</h1>          */}
             <nav className={styles.nav}>
                 <ul>
                     <li>

@@ -44,10 +44,6 @@ const Login = (props) => {
 
         if (formIsValid){
             login();
-            dispatch(authActions.login());
-            console.log('Submitted');
-            console.log(emailValue);
-            console.log(passwordValue);
             return;
         }
     }
@@ -73,6 +69,7 @@ const Login = (props) => {
       .then((data) => {
         console.log(data)
         localStorage.setItem("user", JSON.stringify(data));
+        dispatch(authActions.login());
 
         history.push("/home")
         window.location.reload()

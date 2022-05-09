@@ -62,7 +62,7 @@ const Profile = () => {
 
   return (
     <div className={style.bg}>
-        <div className={style.card}>
+        <div className={style.profile}>
           <div>
             <div className={style.subject}>
               <h6>Personal Details</h6>
@@ -111,9 +111,8 @@ const Profile = () => {
           
           <div>
             <div>
-              <div className={style.button}>
-                <button type="button" onClick={onSubmit}>Cancel</button>
-                <button type="button">Update</button>
+              <div>
+                <button className={style.button} type="button" onClick={onSubmit}>Update</button>
               </div>
             </div>
           </div>
