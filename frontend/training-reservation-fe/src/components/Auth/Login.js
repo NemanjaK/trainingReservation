@@ -15,7 +15,7 @@ const Login = (props) => {
 
     const {
         value: emailValue,
-        isValud: emailIsvalid,
+        isValid: emailIsvalid,
         hasError: emailHasError,
         valueChangeHandler: emailChangeHandler,
         inputBlurHandler: emailBlurHandler
@@ -23,7 +23,7 @@ const Login = (props) => {
 
     const {
         value: passwordValue,
-        isValud: passwordIsValid,
+        isValid: passwordIsValid,
         hasError: passwrodHasError,
         valueChangeHandler: passwordChangeHandler,
         inputBlurHandler: passwordBlurHandler
@@ -69,7 +69,8 @@ const Login = (props) => {
       .then((data) => {
         console.log(data)
         localStorage.setItem("user", JSON.stringify(data));
-        dispatch(authActions.login());
+        const role = JSON.parse(localStorage.getItem('user')).role
+        dispatch(authActions.login(role));
 
         history.push("/home")
         window.location.reload()

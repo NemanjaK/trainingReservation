@@ -7,6 +7,8 @@ import store from '../store/store';
 const Header = (props) => {
 
     const isAuth = store.getState().isAuthenticated;
+    const authorization = store.getState().role;
+
     const dispatch = useDispatch();
 
     console.log(isAuth)
@@ -46,15 +48,15 @@ const Header = (props) => {
                             Reservation
                      </NavLink>
                     </li>
-                    <li>
+                    {isAuth && (authorization == 'ROLE_ADMINISTRATOR' || authorization == 'ROLE_USER') && <li>
                     <NavLink to='/Profile' >
                             Profile
                      </NavLink>
-                    </li>
+                    </li>}
                     <li>
-                    <NavLink to='/admin' >
+                    {isAuth && authorization == 'ROLE_ADMINISTRATOR' && <NavLink to='/admin' >
                             Admin
-                     </NavLink>
+                     </NavLink>}
                     </li>
                 </ul>
             </nav>

@@ -5,9 +5,11 @@ const Admin = () => {
     <main>
     <div>
         <div className={styles.bg}>
+          <Link to='/newMember'>
           <button className={styles.button}>
                 <span>Add new member</span>
           </button>
+          </Link>
           <button className={styles.button}>
                 <span>Reservations</span>
           </button>

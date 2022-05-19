@@ -64,4 +64,33 @@
   color: #2e323c;
 }
 
+.form-control{
+  margin-bottom: 1rem;
+}
+
+.form-control input:focus{
+  outline: none;
+  border-color: #240370;
+  background-color: #e0d4fd;;
+}
+
+.form-control-invalid input {
+  border: 1px solid #b40e0e;
+  background-color: #fddddd;
+}
+
+.form-control-invalid input:focus{
+  border-color: #ff8800;
+  background-color: #fbe8d2;
+}
+
+.error{
+  position: relative;
+  left: 3rem;
+  display: block;
+  color: #b40e0e;
+  text-shadow: rgba(44, 3, 3, 0.849) 1px 0 10px;
+}
+
+
 

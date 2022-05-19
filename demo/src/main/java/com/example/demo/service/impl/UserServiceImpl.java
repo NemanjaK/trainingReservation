@@ -45,6 +45,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User addUser(UserDTO userDTO) {
+        System.out.println(userDTO.getTrainingType());
         User user = new User();
         user.setEmail(userDTO.getEmail());
         user.setName(userDTO.getName());

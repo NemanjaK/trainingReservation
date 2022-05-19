@@ -2,7 +2,8 @@ import styles from './Members.module.css';
 import * as React from 'react';
 import { useState, useEffect } from 'react'
 import Pagination from './Pagination';
-
+import store from '../store/store';
+import { urlConfig } from '../urlConfig';
 
 const Members = () => {
 
@@ -10,9 +11,12 @@ const Members = () => {
   const [totalPages, setTotal] = useState() 
   const [page, setPage] = useState(0);
 
+  const authorization = store.getState().role;
+  console.log(authorization);
+
     useEffect(() => {
       const token = JSON.parse(localStorage.getItem('user')).token
-      fetch(`http://localhost:8080/api/users?size=10&page=${page}`, {
+      fetch(`${urlConfig.trainingUrl}/api/users?size=10&page=${page}`, {
         headers:{
             'Authorization' : `Bearer ${token}`,
         } 

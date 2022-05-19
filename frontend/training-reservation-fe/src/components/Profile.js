@@ -12,7 +12,7 @@ const Profile = () => {
   
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem('user')).token
-    fetch(`http://localhost:8080/api/users/profile`, {
+    fetch(`${urlConfig.trainingUrl}/api/users/profile`, {
       headers:{
           'Authorization' : `Bearer ${token}`,
       }})

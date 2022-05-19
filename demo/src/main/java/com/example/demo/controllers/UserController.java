@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -71,14 +72,14 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
-
+    @PreAuthorize("hasAnyRole('USER','ADMINISTRATOR')")
     @GetMapping("/profile")
     public ResponseEntity<UserDTO> getProfile(Principal principal){
         User user = userService.findByEmail(principal.getName());
         UserDTO userDTO = new UserDTO(user);
         return new ResponseEntity<UserDTO>(userDTO, HttpStatus.OK);
     }
-
+    @PreAuthorize("hasAnyRole('USER','ADMINISTRATOR')")
     @GetMapping
     public ResponseEntity<?> getAll(Pageable pagable){
         Page<User> users = userService.findAll(pagable);
@@ -103,6 +104,7 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<?> createUser(@RequestBody UserDTO userDTO){
+        System.out.println(userDTO);
         User existUser = this.userService.findByEmail(userDTO.getEmail());
         if(existUser == null){
             User user = userService.addUser(userDTO);

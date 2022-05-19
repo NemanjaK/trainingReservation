@@ -10,10 +10,15 @@ import Login from './components/Auth/Login';
 import Admin from './components/Admin.js';
 import Members from './components/Members.js';
 import Profile from './components/Profile';
+import NewMember from './components/NewMember'
+import store from './store/store';
 
 
 function App() {
-  
+  const authorization = store.getState().role;
+  const isAuth = store.getState().isAuthenticated;
+
+
   const [loginIsShown, setLoginIsShown] = useState(false)
 
   const showLoginHandler = () => {
@@ -33,14 +38,20 @@ function App() {
           <Route path='/home' exact>
               <Home/>
           </Route>
-          <Route path='/admin' exact>
+          {isAuth && authorization === 'ROLE_ADMINISTRATOR' && <Route path='/admin' exact>
               <Admin/>
-          </Route>
-          <Route path='/members' exact>
+          </Route>}
+         <Route path='/members' exact>
               <Members/>
           </Route>
           <Route path='/profile' exact>
               <Profile/>
+          </Route>
+          <Route path='/newMember' exact>
+              <NewMember/>
+          </Route>
+          <Route path='*'>
+            <Redirect to='/' />
           </Route>
         </Switch>      
       <Footer/>
