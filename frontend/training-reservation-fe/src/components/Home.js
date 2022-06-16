@@ -1,12 +1,11 @@
-import styles from './Home.module.css'
+import MainVideSection from './MainVideoSection'
+import '../App.css';
 
 const Home = () => {
    return ( 
-    <main>
-        <div className={styles.bg}>
-        </div>
-        
-    </main>
+    <>
+        <MainVideSection/>
+    </>
     )
 
 }

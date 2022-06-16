@@ -1,15 +1,39 @@
 import { NavLink } from 'react-router-dom';
-import styles from './Header.module.css';
 import { useDispatch } from 'react-redux';
 import { authActions } from '../store/auth';
 import store from '../store/store';
+import { useEffect, useState } from 'react';
+import Dropdown from './Dropdown';
+import './Header.css'
+import { Button } from 'bootstrap';
 
 const Header = (props) => {
 
     const isAuth = store.getState().isAuthenticated;
     const authorization = store.getState().role;
+    const [button, setButton] = useState(true);
+    const [click, setClick] = useState(false);
+
+
+    const handleClick = () => setClick(!click);
+    const closeMobileMenu = () => setClick(false);
 
     const dispatch = useDispatch();
+
+    const showButton = () => {
+        if (window.innerWidth <= 860) {
+          setButton(false);
+        } else {
+          setButton(true);
+        }
+      };
+    
+      useEffect(() => {
+        showButton();
+      }, []);
+
+
+    window.addEventListener('resize', showButton);
 
     console.log(isAuth)
     const LogoutHandler = () => {
@@ -18,52 +42,63 @@ const Header = (props) => {
         window.location.replace("/home")
     }
 
-    let button;
+    let signButton;
     if(isAuth){
-        button = <button className={styles.button} onClick={LogoutHandler}>
+        signButton = <button className='logButton' onClick={LogoutHandler}>
         <span>Logout</span>
     </button>;
     } else {
-     button = <button className={styles.button} onClick={props.onClick}>
-        <span>Login</span>
+        signButton = <button className='logButton' onClick={props.onClick}>
+        <span>SIGN UP</span>
      </button>;
     }
 
     return (
-        <header className={styles.header}>
-            <div className={styles.logo}>
-            <a>
-                <img src={require("../assets/crossfitlogo.jpg")} alt="logo"/>
-            </a>
-            </div>
-            <nav className={styles.nav}>
-                <ul>
-                    <li>
-                    <NavLink to='/about' >
-                            About us
+        <>
+          <nav className='navbar'>
+              <NavLink to='/' className='navbar-logo' onClick={closeMobileMenu}>
+                  CROSSFIT
+                  <i class='fab fa-firstdraft' />
+              </NavLink>
+              <div className='menu-icon' onClick={handleClick}>
+                <i className={click ? 'fas fa-times' : 'fas fa-bars'} />
+              </div>
+                <ul className={click ? 'nav-menu active' : 'nav-menu'}>
+                    <li className='nav-item'>
+                    <NavLink to='/' className='nav-links' onClick={closeMobileMenu}>
+                            Home
                     </NavLink>
                     </li>
-                    <li>
-                    <NavLink to='/reservation' >
+
+                    <li className='nav-item'
+                    >
+                    <NavLink to='/reservation' className='nav-links' onClick={closeMobileMenu}>
                             Reservation
                      </NavLink>
                     </li>
-                    {isAuth && (authorization == 'ROLE_ADMINISTRATOR' || authorization == 'ROLE_USER') && <li>
-                    <NavLink to='/Profile' >
+                    {isAuth && (authorization === 'ROLE_ADMINISTRATOR' || authorization === 'ROLE_USER') && 
+                    <li className='nav-item'>
+                    <NavLink to='/Profile' className='nav-links' onClick={closeMobileMenu}>
                             Profile
                      </NavLink>
                     </li>}
-                    <li>
-                    {isAuth && authorization == 'ROLE_ADMINISTRATOR' && <NavLink to='/admin' >
+                    {isAuth && authorization === 'ROLE_ADMINISTRATOR' && 
+                    <li className='nav-item'>
+                    <NavLink to='/Profile' className='nav-links' onClick={closeMobileMenu}>
                             Admin
-                     </NavLink>}
+                     </NavLink>
+                    </li>}
+
+                    <li className='nav-item'>
+                    <NavLink to='/' className='nav-links-mobile' onClick={closeMobileMenu}>
+                            Sign Up
+                     </NavLink>
                     </li>
                 </ul>
+                {signButton}
             </nav>
-            <div>
-            {button}
-            </div>
-        </header>
+
+        </>
     )
 }
 
