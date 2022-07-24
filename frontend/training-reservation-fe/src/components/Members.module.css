@@ -1,0 +1,47 @@
+.table {
+  font-family: arial, sans-serif;
+  margin-left:auto; 
+  margin-right:auto;
+  top: 5rem;
+  width: 60%;
+  height: 400px;
+  position: relative;
+  z-index: 1;
+  background-color: #f1f1f1;
+  opacity: 0.9;
+  border-radius: 15px;
+  
+}
+td
+{
+    border-left: 1px solid #dddddd;
+    text-align: left;
+
+}
+
+th
+{ 
+    border: 1px solid #dddddd;
+    background-color: #555;
+    color: #fff;
+}
+
+.background {
+  background-image: url('../assets/crossfitBackground.jpg');
+  width: 100%;
+  height: 700px;
+  position: relative;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  z-index: 0;
+}
+.pagination{
+  left: 32rem;
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto
+  
+}
