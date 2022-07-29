@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjusters;
@@ -38,6 +39,15 @@ public class TermController {
     @GetMapping(value = "/today")
     public ResponseEntity<List<TermDTO>> getDayTerms(){
         List<Term> terms = termService.findAllWithDates(yesterday, tomorrow);
+        List<TermDTO> termsDTO =  new ArrayList<>();
+        terms.forEach(term -> termsDTO.add(new TermDTO(term)));
+        return new ResponseEntity<List<TermDTO>>(termsDTO,HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/day/{day}")
+    public ResponseEntity<List<TermDTO>> getTermsByDay(@PathVariable("day") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate day){
+        System.out.println(day);
+        List<Term> terms = termService.findAllByDay(day);
         List<TermDTO> termsDTO =  new ArrayList<>();
         terms.forEach(term -> termsDTO.add(new TermDTO(term)));
         return new ResponseEntity<List<TermDTO>>(termsDTO,HttpStatus.OK);

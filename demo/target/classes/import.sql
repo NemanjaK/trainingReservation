@@ -1,20 +1,16 @@
-insert into uloga(naziv) values ('korisnik');
+use trainingreservationv;
 
-insert into korisnik(broj_telefona, email, ime, password, prezime, uloga_id) values ('0642131254', 'pera@gmail.com', 'Pera', '123', 'Peric', 1);
+insert into user(name, last_name, password, email, phone_number, role, training_type, status) VALUES ('Petar', 'Petrovic', '$2a$10$VGMxw/DcBvHvnX4RmwLSt.x.gxR9QiN0CSsrntduLa2a8o3JmJgBC', 'pera@gmail.com', '+566181', 1, 'CROSSFIT', 1);
+insert into user(name, last_name, password, email, phone_number, role, training_type, status) VALUES ('Milos', 'Milosevic', '$2a$10$VGMxw/DcBvHvnX4RmwLSt.x.gxR9QiN0CSsrntduLa2a8o3JmJgBC', 'miki@gmail.com', '+848666', 2, 'CROSSFIT', 1);
+insert into user(name, last_name, password, email, phone_number, role, training_type, status) VALUES ('Uros', 'Milenkovic', '$2a$10$VGMxw/DcBvHvnX4RmwLSt.x.gxR9QiN0CSsrntduLa2a8o3JmJgBC', 'uki@gmail.com', '+566181', 3, 'CROSSFIT', 1);
 
-<<<<<<< HEAD
-insert into trening(opis) values('Grace');
-insert into trening(opis) values('FRAN');
-=======
-insert into trening(datum_treninga, opis) values('2021-02-11','Grace');
-insert into trening(datum_treninga, opis) values('2021-02-11','FRAN');
-insert into trening(datum_treninga, opis) values('2021-11-11','FRAN');
->>>>>>> b185815bb5c4e3c6f0bccfdb0cbdcdef1c02d54b
+insert into training(date_of_training, description) values ('2021-02-11','Grace');
+insert into training(date_of_training, description) values ('2022-02-11','Fran');
 
-insert into rezultat(broj_rundi, vreme, korisnik_id, trening_id) values ('4', '20:00', 1, 1);
+insert into result(numbers_ofrounds, time, user_id, training_id) values ('4', '20:00', 1, 1);
 
-insert into termin(vreme, trening_id) values ('2021-02-11 12:00:00', 1);
-insert into termin(vreme, trening_id) values ('2021-02-11 13:00:00', 1);
+insert into term(occupancy, time, training_id) values (20, '2022-02-11 12:00:00', 1);
+insert into term(occupancy, time, training_id) values (20, '2022-02-11 12:00:00', 1);
 
-insert into rezervacija(termin_id) values(1);
-insert into rezervacija(termin_id) values(2);
+insert into reservation(term_id) values (1);
+insert into reservation(term_id) values (2);

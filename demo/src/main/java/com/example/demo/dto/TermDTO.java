@@ -5,18 +5,18 @@ import com.example.demo.model.Training;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class TermDTO {
 
     private long id;
-    @JsonFormat(pattern="yyyy-MM-dd")
-
-    private LocalDate time;
+    @JsonFormat(pattern="yyyy-MM-dd-HH-mm-ss")
+    private LocalDateTime time;
     private int occupancy;
     private Training training;
 
-    public TermDTO(long id, LocalDate time, int occupancy, Training training) {
+    public TermDTO(long id, LocalDateTime time, int occupancy, Training training) {
         this.id = id;
         this.time = time;
         this.occupancy = occupancy;
@@ -36,11 +36,11 @@ public class TermDTO {
         this.id = id;
     }
 
-    public LocalDate getTime() {
+    public LocalDateTime getTime() {
         return time;
     }
 
-    public void setTime(LocalDate time) {
+    public void setTime(LocalDateTime time) {
         this.time = time;
     }
 

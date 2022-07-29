@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -24,6 +25,11 @@ public class TermServiceImpl implements TermService {
     @Override
     public List<Term> findAllByDate(LocalDate time) {
         return termRepository.findAllByTime(time);
+    }
+
+    @Override
+    public List<Term> findAllByDay(LocalDate time) {
+        return termRepository.findAllByDay(time);
     }
 
     @Override

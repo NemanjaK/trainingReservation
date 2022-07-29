@@ -9,13 +9,18 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
 @Repository
 public interface TermRepository extends JpaRepository<Term, Long> {
+
     List<Term> findAllByTime(LocalDate time);
 
-   @Query(value = "SELECT * FROM Term  WHERE time > :yestarday AND time < :tomorow", nativeQuery = true)
+    @Query(value = "SELECT * FROM term  WHERE time between :day and CONCAT(:day, ' 23:59:59');", nativeQuery = true)
+    List<Term> findAllByDay(LocalDate day);
+
+   @Query(value = "SELECT * FROM term  WHERE time > :yestarday AND time < :tomorow", nativeQuery = true)
     List<Term> findAllWithDates(LocalDate yestarday, LocalDate tomorow);
 }
