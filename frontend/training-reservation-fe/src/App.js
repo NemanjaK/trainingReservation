@@ -12,6 +12,7 @@ import Members from './components/Members.js';
 import Profile from './components/Profile';
 import NewMember from './components/NewMember'
 import store from './store/store';
+import Reservation from './components/Reservation';
 
 
 function App() {
@@ -49,6 +50,9 @@ function App() {
           </Route>
           <Route path='/newMember' exact>
               <NewMember/>
+          </Route>
+          <Route path='/reservation' exact>
+              <Reservation/>
           </Route>
           <Route path='*'>
             <Redirect to='/' />

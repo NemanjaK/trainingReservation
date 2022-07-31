@@ -1,3 +1,3 @@
 export const urlConfig = {
-    trainingUrl: "http://localhost:8080"
+    trainingUrl: "http://localhost:5000"
 };
