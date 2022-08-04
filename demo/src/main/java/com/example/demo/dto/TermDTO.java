@@ -11,7 +11,7 @@ import java.util.Date;
 public class TermDTO {
 
     private long id;
-    @JsonFormat(pattern="yyyy-MM-dd-HH-mm-ss")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime time;
     private int occupancy;
     private Training training;

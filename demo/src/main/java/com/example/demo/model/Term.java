@@ -13,9 +13,10 @@ import java.util.List;
 @Entity
 public class Term {
     @Id
+    @Column(unique=true)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @JsonFormat(pattern="yyyy-MM-dd-HH-mm-ss")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime time;
     private int occupancy;
     @JsonIgnore

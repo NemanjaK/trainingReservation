@@ -2,11 +2,13 @@ package com.example.demo.dto;
 
 import com.example.demo.model.Reservation;
 import com.example.demo.model.Term;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 
 public class ReservationDTO {
 
     private long id;
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Term term;
 
     public ReservationDTO(Reservation r) {

@@ -68,9 +68,10 @@ const Login = (props) => {
       })
       .then((data) => {
         console.log(data)
+        const expirationDate = data.membershipExpirationDate;
         localStorage.setItem("user", JSON.stringify(data));
         const role = JSON.parse(localStorage.getItem('user')).role
-        dispatch(authActions.login(role));
+        dispatch(authActions.login({role, expirationDate}));
 
         history.push("/home")
         window.location.reload()

@@ -53,6 +53,9 @@ idance .timetable {
         padding-left: 15px;
     }
 }
+.idance .expire{
+    color: #d44949;
+}
 .idance .timetable-item-time {
     font-weight: 500;
     font-size: 16px;
@@ -65,6 +68,13 @@ idance .timetable {
 .idance .btn-book {
     padding: 6px 30px;
     width: 100%;
+}
+.idance .btn-book-disabled {
+    padding: 6px 30px solid #999999;
+    width: 100%;
+    background-color: #cccccc;
+    color: #666666;
+    pointer-events: none;
 }
 .idance .timetable-item-like {
     position: absolute;
@@ -92,6 +102,13 @@ idance .timetable {
     text-align: center;
     padding-top: 5px;
     color: #7f7f7f;
+}
+
+.idance .timetable-item-like-count-red {
+    font-size: 12px;
+    text-align: center;
+    padding-top: 5px;
+    color: #d44949;
 }
 .idance .timetable-item-book {
     width: 200px;

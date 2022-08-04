@@ -7,6 +7,7 @@ import javax.persistence.*;
 @Entity
 public class Reservation {
     @Id
+    @Column(unique=true)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @JsonIgnore

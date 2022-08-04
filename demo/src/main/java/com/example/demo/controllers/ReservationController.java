@@ -6,6 +6,7 @@ import com.example.demo.model.Term;
 import com.example.demo.service.impl.ReservationServiceImpl;
 import com.example.demo.service.impl.TermServiceImpl;
 import com.example.demo.service.interfaces.ReservationService;
+import com.example.demo.service.interfaces.TermService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
@@ -25,7 +26,7 @@ public class ReservationController {
     ReservationService reservationService;
 
     @Autowired
-    TermServiceImpl termService;
+    TermService termService;
 
     @GetMapping
     public ResponseEntity<?> getAll(Pageable pageable){
@@ -49,19 +50,20 @@ public class ReservationController {
         return  new ResponseEntity<ReservationDTO>(reservationDTO, HttpStatus.OK);
     }
 
-    @PostMapping
-    public ResponseEntity<ReservationDTO> createReservation(@RequestBody ReservationDTO reservationDTO) {
-        // razmisli o ovome
+    @PostMapping(value = "/{id}")
+    public ResponseEntity<ReservationDTO> createReservation(@PathVariable("id") Long id) {
+        Term term = termService.findById(id);
+
         Reservation reservation = new Reservation();
 
-        reservation.setTerm(reservationDTO.getTerm());
+        reservation.setTerm(term);
 
-        Term term = termService.findOne(reservationDTO.getTerm().getId());
         int occupancy = term.getOccupancy();
             if ( occupancy < 1) {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             } else {
                 term.setOccupancy(occupancy - 1);
+                termService.save(term);
                 reservation = reservationService.save((reservation));
                 return new ResponseEntity<ReservationDTO>(new ReservationDTO(reservation), HttpStatus.CREATED);
             }

@@ -2,15 +2,21 @@ import './Reservation.css';
 import * as React from 'react';
 import { useState, useEffect } from 'react'
 import { urlConfig } from '../urlConfig';
+import Term from './Term';
+import { useDispatch } from 'react-redux';
+import reservation, { reservActions } from '../store/reservation';
+import store from '../store/store';
 
 const Reservation = () => {
 
+  const expirationDate = store.getState().expirationDate;
+  const today = new Date().toISOString().split('T')[0];
   const todayDate = new Date();
+  const reservationDate = store.getState().reserveReducer.date;
 
   const [terms, setTerms] = useState([])
   const [day, setDay] = useState(todayDate.toISOString().split('T')[0])
-  const [active, setActive] = useState(todayDate.getDay());
-
+  const [active, setActive] = useState(todayDate.getDay()); 
 
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem('user')).token
@@ -25,7 +31,6 @@ const Reservation = () => {
             console.log(data)
             setTerms(data);
           })
-      
     }, [day, setDay])
 
   const dayHandling = (number) => {
@@ -43,7 +48,6 @@ const Reservation = () => {
      switch(number){
       case 1:
         const monday = new Date(today.setDate(first)).toISOString().split('T')[0];       
-        console.log(monday + ' MONDAY 2') 
         setDay(monday);
         break;
       case 2:
@@ -82,13 +86,12 @@ const Reservation = () => {
   const activeButton = (num) => {
     setActive(num)
   }
-
   return (    
         <div class="idance">
             <div class="schedule content-block">
                 <div class="container">
-                    <h2 data-aos="zoom-in-up" class="aos-init aos-animate">Schedule</h2>
-                
+                    <h2 data-aos="zoom-in-up" class="aos-init aos-animate">Schedule </h2>
+                    { expirationDate < today && <h2 class="expire">Your subscription has expired</h2> }
                     <div class="timetable">
                 
                       <nav class="nav nav-tabs">
@@ -104,25 +107,7 @@ const Reservation = () => {
                       <div class="tab-content">
                         <div class="tab-pane show active">
                           <div class="row">
-                          {terms.map((term, index) => (
-                              <div class="col-md-6">
-                              <div class="timetable-item">
-                                <div class="timetable-item-img">
-                                  <img src="https://via.placeholder.com/100x80/FFB6C1/000000" alt="Contemporary Dance"></img>
-                                </div>
-                                <div class="timetable-item-main">
-                                  <div class="timetable-item-time">4:00pm - 5:00pm</div>
-                                  <div class="timetable-item-name">Contemporary Dance</div>
-                                  <a href="#" class="btn btn-primary btn-book">Reserve</a>
-                                  <div class="timetable-item-like">
-                                    <i class="fa fa-heart-o" aria-hidden="true"></i>
-                                    <i class="fa fa-heart" aria-hidden="true"></i>
-                                    <div class="timetable-item-like-count">{term.occupancy}</div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          ))}
+                          <Term terms={terms}/>
                           </div>
                         </div>
                       </div>

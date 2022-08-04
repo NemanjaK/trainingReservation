@@ -28,6 +28,11 @@ public class TermServiceImpl implements TermService {
     }
 
     @Override
+    public Term findById(Long id) {
+        return termRepository.getById(id);
+    }
+
+    @Override
     public List<Term> findAllByDay(LocalDate time) {
         return termRepository.findAllByDay(time);
     }

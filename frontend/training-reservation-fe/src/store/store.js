@@ -1,16 +1,20 @@
-import {createStore, applyMiddleware} from "redux";
-import { persistStore, persistReducer } from "redux-persist";
+import {createStore, applyMiddleware, combineReducers} from "redux";
+import { persistStore, persistReducer, persistCombineReducers } from "redux-persist";
 import storage from "redux-persist/es/storage";
 import authReducer from './auth';
+import reserveReducer  from './reservation';
 
 const persistConfig={
   key: 'main-root',
+  blacklist: ['navigation'],
   storage,
 }
 
-const persistedReducer=persistReducer(persistConfig, authReducer)
+const allReducers = persistCombineReducers(persistConfig, {
+  authReducer, reserveReducer
+ })
 
-const store=createStore(persistedReducer, applyMiddleware());
+const store=createStore(allReducers, applyMiddleware());
 
 const Persistor= persistStore(store)
 

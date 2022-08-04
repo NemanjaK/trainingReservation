@@ -9,12 +9,11 @@ import { Button } from 'bootstrap';
 
 const Header = (props) => {
 
-    const isAuth = store.getState().isAuthenticated;
-    const authorization = store.getState().role;
+    const isAuth = store.getState().authReducer.isAuthenticated;
+    const authorization = store.getState().authReducer.role;
     const [button, setButton] = useState(true);
     const [click, setClick] = useState(false);
-
-
+    
     const handleClick = () => setClick(!click);
     const closeMobileMenu = () => setClick(false);
 

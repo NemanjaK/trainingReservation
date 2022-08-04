@@ -59,14 +59,14 @@ public class UserController {
             initUser.setStatus(true);
             userRepository.save(initUser);
             UserDetails details = userDetailsService.loadUserByUsername(user.getEmail());
-            return ResponseEntity.ok(new LoginResponse(tokenHelper.generateToken(details), initUser.getEmail(), initUser.getRole().getAuthority()));
+            return ResponseEntity.ok(new LoginResponse(tokenHelper.generateToken(details), initUser.getEmail(), initUser.getRole().getAuthority(),initUser.getMembershipExpirationDate()));
         }
         try {
             UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword());
             authenticationManager.authenticate(token);
             UserDetails details = userDetailsService.loadUserByUsername(user.getEmail());
             User userData = userService.findByEmail(user.getEmail());
-            return ResponseEntity.ok(new LoginResponse(tokenHelper.generateToken(details), userData.getEmail(), userData.getRole().getAuthority()));
+            return ResponseEntity.ok(new LoginResponse(tokenHelper.generateToken(details), userData.getEmail(), userData.getRole().getAuthority(), userData.getMembershipExpirationDate()));
         } catch (UsernameNotFoundException e) {
             e.getMessage();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

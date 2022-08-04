@@ -13,6 +13,8 @@ public interface TermService {
 
     List<Term> findAllByDate(LocalDate time);
 
+    Term findById(Long id);
+
     List<Term> findAllByDay(LocalDate time);
 
     List<Term> findAllWithDates(LocalDate yesterday, LocalDate tomorow);
