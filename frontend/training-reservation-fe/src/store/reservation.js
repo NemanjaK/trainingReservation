@@ -2,7 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialReservationState = {
   reserved: false,
-  date: []
+  date: [],
+  dateTime: []
 };
 
 const reserveSlice = createSlice({
@@ -11,7 +12,8 @@ const reserveSlice = createSlice({
   reducers: {
     reservation(state, action) {
       state.reserved = true
-      state.date = [...state.date, action.payload]
+      state.date = [...state.date, action.payload.date]
+      state.dateTime = [...state.dateTime, action.payload.dateTime]
     },
     canecllation(state) {
       state.reserved = false

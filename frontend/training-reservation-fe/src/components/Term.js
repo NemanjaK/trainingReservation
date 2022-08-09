@@ -4,15 +4,34 @@ import { urlConfig } from '../urlConfig';
 import store from '../store/store';
 import { useDispatch } from 'react-redux';
 import { reservActions } from '../store/reservation';
+import { useState, useEffect } from 'react';
 
 const Term = (props) => {
 
-    const dispatch = useDispatch();
     const expirationDate = store.getState().authReducer.expirationDate;
-    //const reserved = store.getState().reserveReducer.reserved;
-    const datedate = store.getState().reserveReducer.date;
     const todayDate = new Date().toISOString().split('T')[0];
-    console.log(datedate + " DATE DATE DATE ")
+    const [myDateReservation, setMyDateResevation] = useState([]);
+    const [myDateTimeReservation, setMyDateTimeResevation] = useState([]);
+
+    useEffect(() => {
+      const token = JSON.parse(localStorage.getItem('user')).token
+      fetch(`${urlConfig.trainingUrl}/api/reservations/myReservation`, {
+        headers:{
+            'Authorization' : `Bearer ${token}`,
+          } 
+        })
+            .then((response) => {
+              return response.json();
+            }).then((data) => {
+              data.forEach(element => {
+                setMyDateTimeResevation((myDateTimeReservation) => [...myDateTimeReservation, element.term.time])
+                setMyDateResevation((myDateReservation) => [...myDateReservation, element.term.time.split(' ')[0]])
+              });
+
+            })
+      }, [])
+  
+
     const reservationHandling = (id) => {
         const token = JSON.parse(localStorage.getItem('user')).token
         fetch(`${urlConfig.trainingUrl}/api/reservations/${id}`, {
@@ -24,13 +43,13 @@ const Term = (props) => {
             })
             .then((response) => {
               if (!response.ok) {
+                console.log('a')
                 return Promise.reject(response);
               }
               console.log(response)
               return response.json();
             }).then((data) => {
               console.log(data)
-              dispatch(reservActions.reservation(data.term.time.split(' ')[0]));
               window.location.reload()
             })
             .catch((error) => {
@@ -52,7 +71,8 @@ const Term = (props) => {
           <div class="timetable-item-main">
             <div class="timetable-item-time">Start {new Date(term.time).getHours()}H</div>
             <div class="timetable-item-name">Type of training: {term.training.typeOfTraining}</div>
-            <a href="#" class={term.occupancy == 0 || expirationDate < todayDate || datedate.includes(term.time.split(' ')[0])  ? "btn btn-primary btn-book-disabled" : "btn btn-primary btn-book"} onClick={() => reservationHandling(term.id)}>Reserve</a>
+            <a href="#" class={term.occupancy == 0 || expirationDate < todayDate || myDateTimeReservation.includes(term.time.split(' ')[0])  ? "btn btn-primary btn-book-disabled" : "btn btn-primary btn-book"} onClick={() => reservationHandling(term.id)}>Reserve</a>
+            {myDateTimeReservation.includes(term.time) && <a>You have reserved this training term!</a>}
             <div class="timetable-item-like">
               <i class="fa fa-heart-o" aria-hidden="true"></i>
               <i class="fa fa-heart" aria-hidden="true"></i>
