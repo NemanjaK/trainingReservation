@@ -3,10 +3,10 @@ package com.example.demo.controllers;
 import com.example.demo.dto.ReservationDTO;
 import com.example.demo.model.Reservation;
 import com.example.demo.model.Term;
-import com.example.demo.service.impl.ReservationServiceImpl;
-import com.example.demo.service.impl.TermServiceImpl;
+import com.example.demo.model.User;
 import com.example.demo.service.interfaces.ReservationService;
 import com.example.demo.service.interfaces.TermService;
+import com.example.demo.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
@@ -15,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.data.domain.Pageable;
+
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +26,9 @@ public class ReservationController {
 
     @Autowired
     ReservationService reservationService;
+
+    @Autowired
+    UserService userService;
 
     @Autowired
     TermService termService;
@@ -50,13 +55,29 @@ public class ReservationController {
         return  new ResponseEntity<ReservationDTO>(reservationDTO, HttpStatus.OK);
     }
 
+    @GetMapping(value = "/myReservation")
+    public ResponseEntity<List<ReservationDTO>> myReservation(Principal p){
+        User user = userService.findByEmail(p.getName());
+        Long userId = user.getId();
+        System.out.println(userId);
+        List<Reservation> reservations =  reservationService.findAllById(userId);
+        List<ReservationDTO> reservationDTOS = new ArrayList<>();
+
+        reservations.forEach(reservation -> reservationDTOS.add(new ReservationDTO(reservation)));
+        System.out.println(reservationDTOS);
+
+        return new ResponseEntity<List<ReservationDTO>>(reservationDTOS, HttpStatus.OK);
+    }
+
     @PostMapping(value = "/{id}")
-    public ResponseEntity<ReservationDTO> createReservation(@PathVariable("id") Long id) {
+    public ResponseEntity<ReservationDTO> createReservation(@PathVariable("id") Long id, Principal p) {
+
+        User user = userService.findByEmail(p.getName());
         Term term = termService.findById(id);
 
         Reservation reservation = new Reservation();
-
         reservation.setTerm(term);
+        reservation.setUser(user);
 
         int occupancy = term.getOccupancy();
             if ( occupancy < 1) {

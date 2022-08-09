@@ -23,6 +23,11 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
+    public List<Reservation> findAllById(Long id) {
+        return reservationRepository.findAllById(id);
+    }
+
+    @Override
     public Reservation findOne(Long id) {
         return  reservationRepository.getById(id);
     }

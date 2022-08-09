@@ -18,14 +18,14 @@ public class ResultController {
     @Autowired
     ResultService resultService;
 
-    @GetMapping
-    public ResponseEntity<List<ResultDTO>> getAll(){
-        List<Result> results = resultService.findAll();
-        List<ResultDTO> resultsDTO =  new ArrayList<>();
-        results.forEach(result -> resultsDTO.add(new ResultDTO(result)));
-
-        return new ResponseEntity<List<ResultDTO>>(resultsDTO, HttpStatus.OK);
-    }
+//    @GetMapping(value = "/myReservation")
+//    public ResponseEntity<List<ResultDTO>> getAll(){
+//        List<Result> results = resultService.findAll();
+//        List<ResultDTO> resultsDTO =  new ArrayList<>();
+//        results.forEach(result -> resultsDTO.add(new ResultDTO(result)));
+//
+//        return new ResponseEntity<List<ResultDTO>>(resultsDTO, HttpStatus.OK);
+//    }
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<ResultDTO> getOne(@PathVariable("id") Long id){

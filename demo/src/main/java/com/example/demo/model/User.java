@@ -33,6 +33,11 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Result> results;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "term")
+    private List<Reservation> reservations;
+
+
     public User() {
     }
 
@@ -49,6 +54,29 @@ public class User {
         this.trainingType = trainingType;
         this.status = status;
         this.membershipExpirationDate = membershipExpirationDate;
+    }
+
+    public User(long id, String name, String lastName, String password, String email, String phoneNumber, Role role, TrainingType trainingType, LocalDate membershipExpirationDate, boolean status, List<Result> results, List<Reservation> reservations) {
+        this.id = id;
+        this.name = name;
+        this.lastName = lastName;
+        this.password = password;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.role = role;
+        this.trainingType = trainingType;
+        this.membershipExpirationDate = membershipExpirationDate;
+        this.status = status;
+        this.results = results;
+        this.reservations = reservations;
+    }
+
+    public List<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(List<Reservation> reservations) {
+        this.reservations = reservations;
     }
 
     public long getId() {

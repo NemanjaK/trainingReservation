@@ -10,6 +10,8 @@ public interface ReservationService {
 
     Page<Reservation> findAll(Pageable pageable);
 
+    List<Reservation> findAllById(Long id);
+
     Reservation findOne(Long id);
 
     Reservation save(Reservation reservation);
