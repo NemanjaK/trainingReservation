@@ -40,4 +40,12 @@ public class ReservationDTO {
     public void setTerm(Term term) {
         this.term = term;
     }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }

@@ -15,20 +15,15 @@ public class Result {
     @ManyToOne
     @JoinColumn
     private User user;
-    @JsonIgnore
-    @ManyToOne
-    @JoinColumn
-    private Training training;
 
     public Result() {
     }
 
-    public Result(Long id, String time, String numbersOfrounds, User user, Training training) {
+    public Result(Long id, String time, String numbersOfrounds, User user) {
         this.id = id;
         this.time = time;
         this.numbersOfrounds = numbersOfrounds;
         this.user = user;
-        this.training = training;
     }
 
     public Long getId() {
@@ -61,13 +56,5 @@ public class Result {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public Training getTraining() {
-        return training;
-    }
-
-    public void setTraining(Training training) {
-        this.training = training;
     }
 }

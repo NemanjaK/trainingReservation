@@ -12,6 +12,7 @@ import java.util.List;
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
     Page<Reservation> findAll(Pageable pageable);
+
     @Query(value = "SELECT * FROM reservation  WHERE user_id = :id", nativeQuery = true)
     List<Reservation> findAllById(Long id);
 }

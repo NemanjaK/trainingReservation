@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import com.example.demo.enums.TrainingType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -16,15 +17,12 @@ public class Term {
     @Column(unique=true)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm")
     private LocalDateTime time;
     private int occupancy;
+    private TrainingType typeOfTraining;
     @JsonIgnore
-    @ManyToOne
-    @JoinColumn
-    private Training training;
-    @JsonIgnore
-    @OneToMany(mappedBy = "term")
+    @OneToMany(mappedBy = "term", cascade = CascadeType.ALL)
     private List<Reservation> reservations;
 
     public Term() {
@@ -36,15 +34,30 @@ public class Term {
         this.occupancy = occupancy;
     }
 
-    public Term(long id, LocalDateTime time, int occupancy, Training training, List<Reservation> reservations) {
+    public Term(long id, LocalDateTime time, int occupancy, List<Reservation> reservations) {
         this.id = id;
         this.time = time;
         this.occupancy = occupancy;
-        this.training = training;
         this.reservations = reservations;
     }
 
-    public long getId() {
+    public Term(long id, LocalDateTime time, int occupancy, TrainingType typeOfTraining, List<Reservation> reservations) {
+        this.id = id;
+        this.time = time;
+        this.occupancy = occupancy;
+        this.typeOfTraining = typeOfTraining;
+        this.reservations = reservations;
+    }
+
+    public TrainingType getTypeOfTraining() {
+        return typeOfTraining;
+    }
+
+    public void setTypeOfTraining(TrainingType typeOfTraining) {
+        this.typeOfTraining = typeOfTraining;
+    }
+
+    public long  getId() {
         return id;
     }
 
@@ -66,14 +79,6 @@ public class Term {
 
     public void setOccupancy(int occupancy) {
         this.occupancy = occupancy;
-    }
-
-    public Training getTraining() {
-        return training;
-    }
-
-    public void setTraining(Training training) {
-        this.training = training;
     }
 
     public List<Reservation> getReservations() {

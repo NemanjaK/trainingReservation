@@ -11,9 +11,6 @@ const Members = () => {
   const [totalPages, setTotal] = useState() 
   const [page, setPage] = useState(0);
 
-  const authorization = store.getState().role;
-  console.log(authorization);
-
     useEffect(() => {
       const token = JSON.parse(localStorage.getItem('user')).token
       fetch(`${urlConfig.trainingUrl}/api/users?size=10&page=${page}`, {

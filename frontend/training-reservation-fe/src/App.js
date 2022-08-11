@@ -13,7 +13,8 @@ import Profile from './components/Profile';
 import NewMember from './components/NewMember'
 import store from './store/store';
 import Reservation from './components/Reservation';
-
+import MyReservations from './components/MyReservations.js';
+import MaterialUIPickers from './components/MaterialUIPickers';
 
 function App() {
   const authorization = store.getState().role;
@@ -21,7 +22,7 @@ function App() {
 
 
   const [loginIsShown, setLoginIsShown] = useState(false)
-
+  
   const showLoginHandler = () => {
     setLoginIsShown(true);
   }
@@ -29,6 +30,7 @@ function App() {
   const hidLoginHandler = () => {
     setLoginIsShown(false);
   }
+
 
   return (
     <Fragment>
@@ -53,6 +55,12 @@ function App() {
           </Route>
           <Route path='/reservation' exact>
               <Reservation/>
+          </Route>
+          <Route path='/myReservations' exact>
+              <MyReservations/>
+          </Route>
+          <Route path='/date' exact>
+              <MaterialUIPickers/>
           </Route>
           <Route path='*'>
             <Redirect to='/' />

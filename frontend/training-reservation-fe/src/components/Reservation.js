@@ -3,16 +3,13 @@ import * as React from 'react';
 import { useState, useEffect } from 'react'
 import { urlConfig } from '../urlConfig';
 import Term from './Term';
-import { useDispatch } from 'react-redux';
-import reservation, { reservActions } from '../store/reservation';
 import store from '../store/store';
 
-const Reservation = () => {
+const Reservation = (props) => {
 
   const expirationDate = store.getState().expirationDate;
   const today = new Date().toISOString().split('T')[0];
   const todayDate = new Date();
-  const reservationDate = store.getState().reserveReducer.date;
 
   const [terms, setTerms] = useState([])
   const [day, setDay] = useState(todayDate.toISOString().split('T')[0])

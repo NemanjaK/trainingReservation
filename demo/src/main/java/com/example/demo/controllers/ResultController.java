@@ -44,7 +44,7 @@ public class ResultController {
 
         result.setNumbersOfrounds(resultDTO.getNumberOfRunds());
         result.setUser(resultDTO.getUser());
-        result.setTraining(resultDTO.getTraining());
+//        result.setTraining(resultDTO.getTraining());
         result.setTime(resultDTO.getTime());
 
         result = resultService.save((result));

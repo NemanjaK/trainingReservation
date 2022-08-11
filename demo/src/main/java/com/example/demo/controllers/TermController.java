@@ -76,7 +76,6 @@ public class TermController {
     public ResponseEntity<TermDTO> createTerm(@RequestBody TermDTO termDTO){
         Term term = new Term();
 
-        term.setTraining(termDTO.getTraining());
         term.setTime(termDTO.getTime());
         term.setOccupancy(termDTO.getOccupancy());
         term = termService.save(term);
@@ -84,8 +83,9 @@ public class TermController {
         return  new ResponseEntity<TermDTO>(new TermDTO(term), HttpStatus.CREATED);
     }
 
-    @DeleteMapping(value = "{/id}")
+    @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteTerm(@PathVariable("id") Long id){
+        System.out.print(id);
         Term term = termService.findOne(id);
         if(term == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

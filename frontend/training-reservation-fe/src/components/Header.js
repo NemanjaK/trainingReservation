@@ -68,11 +68,9 @@ const Header = (props) => {
                             Home
                     </NavLink>
                     </li>
-
-                    <li className='nav-item'
-                    >
-                    <NavLink to='/reservation' className='nav-links' onClick={closeMobileMenu}>
-                            Reservation
+                    <li className='nav-item'>
+                    <NavLink to='/Members' className='nav-links' onClick={closeMobileMenu}>
+                            Members
                      </NavLink>
                     </li>
                     {isAuth && (authorization === 'ROLE_ADMINISTRATOR' || authorization === 'ROLE_USER') && 
@@ -87,13 +85,13 @@ const Header = (props) => {
                             Admin
                      </NavLink>
                     </li>}
-
                     <li className='nav-item'>
                     <NavLink to='/' className='nav-links-mobile' onClick={closeMobileMenu}>
                             Sign Up
                      </NavLink>
                     </li>
                 </ul>
+
                 {signButton}
             </nav>
 

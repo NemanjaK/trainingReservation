@@ -59,12 +59,11 @@ public class ReservationController {
     public ResponseEntity<List<ReservationDTO>> myReservation(Principal p){
         User user = userService.findByEmail(p.getName());
         Long userId = user.getId();
-        System.out.println(userId);
+
         List<Reservation> reservations =  reservationService.findAllById(userId);
         List<ReservationDTO> reservationDTOS = new ArrayList<>();
 
         reservations.forEach(reservation -> reservationDTOS.add(new ReservationDTO(reservation)));
-        System.out.println(reservationDTOS);
 
         return new ResponseEntity<List<ReservationDTO>>(reservationDTOS, HttpStatus.OK);
     }
