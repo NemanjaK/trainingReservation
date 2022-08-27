@@ -30,7 +30,6 @@ public class TermController {
     final LocalDate today = LocalDate.now();
     final LocalDate tomorrow = today.plus(1, ChronoUnit.DAYS);
     final LocalDate yesterday = tomorrow.minusDays(2);
-
     final LocalDate nextMonth = today.plus(1 , ChronoUnit.MONTHS);
 
     @Autowired
@@ -75,9 +74,10 @@ public class TermController {
     @PostMapping
     public ResponseEntity<TermDTO> createTerm(@RequestBody TermDTO termDTO){
         Term term = new Term();
-
+        System.out.println(termDTO.getTypeOfTraining());
         term.setTime(termDTO.getTime());
         term.setOccupancy(termDTO.getOccupancy());
+        term.setTypeOfTraining(termDTO.getTypeOfTraining());
         term = termService.save(term);
 
         return  new ResponseEntity<TermDTO>(new TermDTO(term), HttpStatus.CREATED);

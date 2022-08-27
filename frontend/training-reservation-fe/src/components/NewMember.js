@@ -11,36 +11,36 @@ const NewMember = () => {
   const [typeOfTraining, setTypeOfTraining] = useState("");
   const [typeOfUser, setTypeOfUser] = useState("");
 
-    const {
-        value: name,
-        isValid: nameIsValid,
-        hasError: nameHasError,
-        valueChangeHandler: nameChangeHandler,
-        inputBlurHandler: nameBlurHandler
-    } = useInput(isNotEmpty);
+  const {
+    value: name,
+    isValid: nameIsValid,
+    hasError: nameHasError,
+    valueChangeHandler: nameChangeHandler,
+    inputBlurHandler: nameBlurHandler
+  } = useInput(isNotEmpty);
 
-    const {
-        value: lastName,
-        isValid: lastNameIsValid,
-        hasError: lastNameHasError,
-        valueChangeHandler: lastNameChangeHandler,
-        inputBlurHandler: lastNameBlurHandler
-    } = useInput(isNotEmpty);
+  const {
+    value: lastName,
+    isValid: lastNameIsValid,
+    hasError: lastNameHasError,
+    valueChangeHandler: lastNameChangeHandler,
+    inputBlurHandler: lastNameBlurHandler
+  } = useInput(isNotEmpty);
 
-    const {
-      value: email,
-      isValid: emailIsvalid,
-      hasError: emailHasError,
-      valueChangeHandler: emailChangeHandler,
-      inputBlurHandler: emailBlurHandler
+  const {
+    value: email,
+    isValid: emailIsvalid,
+    hasError: emailHasError,
+    valueChangeHandler: emailChangeHandler,
+    inputBlurHandler: emailBlurHandler
   } = useInput(isEmail);
 
 
-    let formIsValid = false;
+  let formIsValid = false;
 
-    if(nameIsValid && lastNameIsValid && emailIsvalid){
-      formIsValid = true;
-    }
+  if (nameIsValid && lastNameIsValid && emailIsvalid) {
+    formIsValid = true;
+  }
   const nameClass = nameHasError ? 'form-control-invalid' : 'form-control';
   const lastNameClass = lastNameHasError ? 'form-control-invalid' : 'form-control';
   const emailClass = emailHasError ? 'form-control-invalid' : 'form-control';
@@ -48,7 +48,7 @@ const NewMember = () => {
   const onSubmit = (event) => {
     event.preventDefault();
     console.log(formIsValid);
-    if(formIsValid){
+    if (formIsValid) {
       createUser();
       return;
     }
@@ -64,15 +64,15 @@ const NewMember = () => {
       role: typeOfUser
     }
     const token = JSON.parse(localStorage.getItem('user')).token
-    
-    fetch(`${urlConfig.trainingUrl}/api/users`,{
+
+    fetch(`${urlConfig.trainingUrl}/api/users`, {
       method: 'POST',
       headers: {
-          'Content-type': 'application/json',
-          'Authorization' : `Bearer ${token}`,
+        'Content-type': 'application/json',
+        'Authorization': `Bearer ${token}`,
       },
       body: JSON.stringify(userDto)
-      })
+    })
       .then((response) => {
         if (!response.ok) {
           return Promise.reject(response);
@@ -85,7 +85,7 @@ const NewMember = () => {
       .catch((error) => {
         console.log(error);
       });
-  
+
   }
 
   const dropDown = (e) => {
@@ -94,80 +94,80 @@ const NewMember = () => {
 
   return (
     <div className={style.bg}>
-        <div className={style.profile}>
+      <div className={style.profile}>
+        <div>
+          <div className={style.subject}>
+            <h6>Personal Details</h6>
+          </div>
           <div>
-            <div className={style.subject}>
-              <h6>Personal Details</h6>
-            </div>
-            <div>
-              <div className={style[nameClass]}>
-                <label>Name</label>
-                <input className={style.formControl} type="text" 
-                  onChange={nameChangeHandler}
-                  onBlur={nameBlurHandler}
-                />
-              </div>
-            </div>
-            <div>
-              <div className={style[lastNameClass]}>
-                <label>Last name</label>
-                <input className={style.formControl} type="text" 
-                  onChange={lastNameChangeHandler}
-                  onBlur={lastNameBlurHandler}
-                />
-              </div>
-            </div>
-            <div>
-              <div>
-                <label>Phone</label>
-                <input className={style.formControl} type="text" 
-                  onChange={(e) => setPhoneNumber(e.target.value)}
-                />
-              </div>
-            </div>
-            <div >
-              <div className={style[emailClass]}>
-                <label>Email</label>
-                <input className={style.formControl} type="email"
-                  onChange={emailChangeHandler}
-                  onBlur={emailBlurHandler}     
-                      />
-              </div>
-            </div>
-            <div >
-              <div>
-                <label>Training type</label>
-                <select onChange={dropDown}>
-                <option >Select...</option>
-                <option  value="JOGA">JOGA</option>
-                  <option value='CROSSFIT'>CROSSFIT</option>
-                  <option value="FUNCTIONAL">FUNCTIONAL</option>
-                </select>
-              </div>
-            </div>
-            <div >
-              <div>
-                <label>User type</label>
-                <select 
-                  onChange={(e) => setTypeOfUser(e.target.value)} 
-                >
-                <option >Select...</option>
-                <option  value="ROLE_USER">USER</option>
-                  <option value="ROLE_ADMINISTRATOR">ADMIN</option>
-                </select>
-              </div>
+            <div className={style[nameClass]}>
+              <label>Name</label>
+              <input className={style.formControl} type="text"
+                onChange={nameChangeHandler}
+                onBlur={nameBlurHandler}
+              />
             </div>
           </div>
-          
+          <div>
+            <div className={style[lastNameClass]}>
+              <label>Last name</label>
+              <input className={style.formControl} type="text"
+                onChange={lastNameChangeHandler}
+                onBlur={lastNameBlurHandler}
+              />
+            </div>
+          </div>
           <div>
             <div>
-              <div>
-                <button className={style.button} type="button" onClick={onSubmit}>Create</button>
-              </div>
+              <label>Phone</label>
+              <input className={style.formControl} type="text"
+                onChange={(e) => setPhoneNumber(e.target.value)}
+              />
+            </div>
+          </div>
+          <div >
+            <div className={style[emailClass]}>
+              <label>Email</label>
+              <input className={style.formControl} type="email"
+                onChange={emailChangeHandler}
+                onBlur={emailBlurHandler}
+              />
+            </div>
+          </div>
+          <div >
+            <div>
+              <label>Training type</label>
+              <select onChange={dropDown}>
+                <option >Select...</option>
+                <option value="JOGA">JOGA</option>
+                <option value='CROSSFIT'>CROSSFIT</option>
+                <option value="FUNCTIONAL">FUNCTIONAL</option>
+              </select>
+            </div>
+          </div>
+          <div >
+            <div>
+              <label>User type</label>
+              <select
+                onChange={(e) => setTypeOfUser(e.target.value)}
+              >
+                <option >Select...</option>
+                <option value="ROLE_USER">USER</option>
+                <option value="ROLE_ADMINISTRATOR">ADMIN</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div>
+            <div>
+              <button className={style.button} type="button" onClick={onSubmit}>Create</button>
             </div>
           </div>
         </div>
       </div>
+    </div>
   )
 }
 

@@ -1,0 +1,122 @@
+.table {
+  font-family: arial, sans-serif;
+  margin-left:auto; 
+  margin-right:auto;
+  top: 5rem;
+  width: 60%;
+  height: 400px;
+  position: relative;
+  z-index: 1;
+  background-color: #f1f1f1;
+  opacity: 0.9;
+  border-radius: 15px;
+  
+}
+.table td
+{
+    border-left: 1px solid #dddddd;
+    text-align: left;
+
+}
+
+.table th
+{ 
+    border: 1px solid #dddddd;
+    background-color: #555;
+    color: #fff;
+}
+
+.background {
+  background-image: url('../assets/crossfitBackground.jpg');
+  width: 100%;
+  height: 700px;
+  position: relative;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  z-index: 0;
+}
+.pagination{
+  display: inline-block;
+  font-family: arial, sans-serif;
+  margin-left:auto; 
+  margin-right:auto;
+  top: 5rem;
+  width: 20%;
+  height: 20px;
+  z-index: 1;
+  background-color: #f1f1f1;
+  opacity: 0.9;
+  border-radius: 15px;
+  
+}
+.searchInputs {
+  position: absolute;
+  margin-top: 45px;
+  margin-left: 310px;
+  display: flex;
+}
+
+.search input {
+  background-color: white;
+  border: 0;
+  border-radius: 2px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+  font-size: 18px;
+  padding: 15px;
+  height: 30px;
+  width: 300px;
+}
+
+.searchIcon {
+  height: 30px;
+  width: 40px;
+  background-color: white;
+  display: grid;
+  place-items: center;
+}
+
+input:focus {
+  outline: none;
+}
+.searchIcon svg {
+  font-size: 35px;
+}
+
+.dataResult {
+  margin-top: 5px;
+  width: 300px;
+  height: 200px;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  overflow: hidden;
+  overflow-y: auto;
+}
+
+.dataResult::-webkit-scrollbar {
+  display: none;
+}
+
+.dataResult .dataItem {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  color: black;
+}
+
+.dataItem p {
+  margin-left: 10px;
+}
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  background-color: lightgrey;
+}
+
+#clearBtn {
+  cursor: pointer;
+}

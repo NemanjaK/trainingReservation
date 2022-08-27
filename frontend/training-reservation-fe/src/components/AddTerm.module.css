@@ -21,7 +21,7 @@
 }
 
 .form-control{
-    margin-bottom: 1rem;
+    margin:auto
 }
 
 .form-control input:focus{
@@ -55,10 +55,10 @@
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    position: fixed;
+    position: absolute;
     width: 100%;
     height: 150px;
-    top: 15vh;
+    top: 12vh;
     left: 45%;
     background-color: #96968c;
     padding: 1rem;
@@ -70,13 +70,13 @@
 
 .login {
     position: relative;
-    left: 25px;
+    left: 30px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     font-weight: bold;
     font-size: 1.5rem;
-    margin: 1rem ;
+    margin: auto;
 }
 
 .button {

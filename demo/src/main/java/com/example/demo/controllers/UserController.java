@@ -23,6 +23,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.security.Principal;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -127,5 +129,20 @@ public class UserController {
 
         return new ResponseEntity<>(userDTO, HttpStatus.OK);
     }
+
+    @PutMapping(value = "/extension/{id}")
+    public ResponseEntity<UserDTO> updateDateExpiration(@PathVariable("id") Long id){
+        User user = userService.findOne(id);
+
+        final LocalDate today = LocalDate.now();
+        final LocalDate nextMonth = today.plus(1 , ChronoUnit.MONTHS);
+        user.setMembershipExpirationDate(nextMonth);
+        userService.save(user);
+
+        UserDTO userDTO = new UserDTO(user);
+
+        return new ResponseEntity<>(userDTO, HttpStatus.OK);
+    }
+
 
 }

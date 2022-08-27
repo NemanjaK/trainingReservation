@@ -64,11 +64,11 @@ public class TermDTO {
         this.occupancy = occupancy;
     }
 
-    public TrainingType getTraining() {
+    public TrainingType getTypeOfTraining() {
         return typeOfTraining;
     }
 
-    public void setTraining(TrainingType typeOfTraining ) {
+    public void setTypeOfTraining(TrainingType typeOfTraining) {
         this.typeOfTraining = typeOfTraining;
     }
 }

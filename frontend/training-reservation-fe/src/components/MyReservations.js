@@ -4,14 +4,32 @@ import { useState, useEffect } from 'react'
 import Pagination from './Pagination';
 import store from '../store/store';
 import { urlConfig } from '../urlConfig';
+import SearchIcon from "@material-ui/icons/Search";
+import "./SearchBar.css";
 
 const MyReservations = () => {
 
   const [totalPages, setTotal] = useState() 
   const [page, setPage] = useState(0);
   const [myReservations, setMyReservations] = useState([])
+  const [allMyResevations, setAllMyReservations] = useState([]);
   const authorization = store.getState().authReducer.role;
   const isAuth = store.getState().authReducer.isAuthenticated;
+
+  const handleFilter = (event) => {
+    const searchWord = event.target.value;
+    const newFilter = myReservations.filter((value) => {
+      return value.user.name.toLowerCase().includes(searchWord.toLowerCase());
+    });
+
+    setMyReservations(newFilter)
+    if (searchWord === "") {
+      console.log('PRAZAN')
+      setMyReservations(allMyResevations);
+    } else {
+      searchWord(newFilter);
+    }
+  };
 
     useEffect(() => {
       const token = JSON.parse(localStorage.getItem('user')).token
@@ -28,6 +46,7 @@ const MyReservations = () => {
           }).then((data) => {
             console.log(data)
             setMyReservations(data);
+            setAllMyReservations(data);
           })
       } else if (authorization === 'ROLE_USER'){
           fetch(`${urlConfig.trainingUrl}/api/reservations/myReservation`, {
@@ -42,6 +61,7 @@ const MyReservations = () => {
             }).then((data) => {
               console.log(data + 'MY RESERVATIONS')
               setMyReservations(data);
+              setAllMyReservations(data);
             })
       }    
   }, [page, setPage])
@@ -81,7 +101,7 @@ const MyReservations = () => {
 
     const dateNow = new Date();
     if (date > dateNow || authorization === 'ROLE_ADMINISTRATOR'){
-      const buttonCancel = <button onClick={() => deleteReservation(id)}>CANCEL</button>
+      const buttonCancel = <button  onClick={() => deleteReservation(id)}>CANCEL</button>
       return buttonCancel
     }
 
@@ -90,6 +110,14 @@ const MyReservations = () => {
   
   return (    
   <div className={styles.background}>
+      <div className="search">
+           <div className="searchInputs">
+            <input type="text" onChange={handleFilter}/>
+            <div className="searchIcon"> 
+                    <SearchIcon/>
+            </div> 
+          </div>
+      </div>    
     <table className={styles.table}>
       <thead>
         <tr>

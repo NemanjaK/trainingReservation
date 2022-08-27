@@ -34,7 +34,6 @@ const Header = (props) => {
 
     window.addEventListener('resize', showButton);
 
-    console.log(isAuth)
     const LogoutHandler = () => {
         localStorage.clear();
         dispatch(authActions.logout());
@@ -50,6 +49,23 @@ const Header = (props) => {
         signButton = <button className='logButton' onClick={props.onClick}>
         <span>SIGN UP</span>
      </button>;
+    }
+
+    let navbarText;
+    let navBarLinkReservations;
+    let navBarLinkTerms;
+    if(isAuth && authorization === 'ROLE_ADMINISTRATOR'){
+      navbarText =  <a className='nav-links dropdown-toggle' href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Admin section
+      </a>
+      navBarLinkReservations = 'Reservations'
+      navBarLinkTerms = 'Manage terms'
+    } else if (isAuth && authorization === 'ROLE_USER'){
+      navbarText =  <a className='nav-links dropdown-toggle' href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Reservations
+      </a>
+      navBarLinkReservations = 'My reservations'
+      navBarLinkTerms = 'Book your training'
     }
 
     return (
@@ -68,21 +84,15 @@ const Header = (props) => {
                             Home
                     </NavLink>
                     </li>
-                    <li className='nav-item'>
+                    {isAuth && authorization === 'ROLE_ADMINISTRATOR' && <li className='nav-item'>
                     <NavLink to='/Members' className='nav-links' onClick={closeMobileMenu}>
                             Members
                      </NavLink>
-                    </li>
+                    </li>}
                     {isAuth && (authorization === 'ROLE_ADMINISTRATOR' || authorization === 'ROLE_USER') && 
                     <li className='nav-item'>
                     <NavLink to='/Profile' className='nav-links' onClick={closeMobileMenu}>
                             Profile
-                     </NavLink>
-                    </li>}
-                    {isAuth && authorization === 'ROLE_ADMINISTRATOR' && 
-                    <li className='nav-item'>
-                    <NavLink to='/Profile' className='nav-links' onClick={closeMobileMenu}>
-                            Admin
                      </NavLink>
                     </li>}
                     <li className='nav-item'>
@@ -90,8 +100,20 @@ const Header = (props) => {
                             Sign Up
                      </NavLink>
                     </li>
+                    {isAuth && (authorization === 'ROLE_ADMINISTRATOR' || authorization === 'ROLE_USER') &&
+                    <li>
+                      <div className='dropdown' >
+                        <li class="nav-item dropdown">
+                          {navbarText}
+                          <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                            <li><a class="dropdown-item" href="#"><NavLink className='nav-links' to='/myReservations'>{navBarLinkReservations}</NavLink></a></li>
+                            <li><a class="dropdown-item" href="#"><NavLink className='nav-links' to='/reservation'>{navBarLinkTerms}</NavLink></a></li>
+                          </ul>
+                        </li>
+                      </div>
+                    </li>
+                    }
                 </ul>
-
                 {signButton}
             </nav>
 

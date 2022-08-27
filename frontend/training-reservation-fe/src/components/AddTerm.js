@@ -17,24 +17,29 @@ import moment from 'moment';
 const AddTerm = (props) => {
 
     const [timeValue, setTimeValue] = useState(new Date());
-    const [occupancy, setOccupacy] = useState()
+    const [occupancy, setOccupacy] = useState();
+    const [typeOfTraining, setTypeOfTraining] = useState();
+    console.log(typeOfTraining);
+
 
     console.log(moment(timeValue).format('YYYY-MM-DD hh:mm'));
-    console.log(occupancy);
-
-    const stringDate = timeValue;
 
     const handleChange = (newValue) => {
-        setTimeValue(newValue);
+        const dateValue = new Date(newValue).toLocaleString();
+        setTimeValue(dateValue);
     };
 
     const occupancyChangeHandler = (newValue) => {
         setOccupacy(newValue);
     };
 
+    const typeOfTrainingChangeHandler = (newValue) => {
+      setTypeOfTraining(newValue);
+  };
+
     const addTerm = () => {
     const token = JSON.parse(localStorage.getItem('user')).token
-    const TermDTO = { time: moment(timeValue).format('YYYY-MM-DD hh:mm'), occupancy: occupancy}
+    const TermDTO = { time: moment(timeValue).format('YYYY-MM-DD hh:mm'), occupancy: occupancy, typeOfTraining: typeOfTraining}
     console.log(TermDTO)
     console.log(JSON.stringify(TermDTO))
     const requestOptions = {
@@ -96,6 +101,16 @@ const AddTerm = (props) => {
                     type='number'
                     onChange={(e) => occupancyChangeHandler(e.target.value)}
                     />
+                </div>
+                <div className={style['form-control']}>
+                  <label>Type of training</label>
+                </div>
+                <div>
+                  <select onChange={(e) => typeOfTrainingChangeHandler(e.target.value)}  >
+                    <option value="1">CROSSFIT</option>
+                    <option value="2">FUNCTIONAL</option>
+                    <option value="0">JOGA</option>
+                  </select>
                 </div> 
                 <button className={style.button} onClick={props.onHide}>
                     Close
