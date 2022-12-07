@@ -21,7 +21,7 @@ const Members = () => {
     
         setUsers(newFilter)
         if (searchWord === "") {
-          console.log('PRAZAN DEO')
+          console.log('PRAZAN DEOS')
           setUsers(allUsers);
         } else {
           searchWord(newFilter);
