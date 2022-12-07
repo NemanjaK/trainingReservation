@@ -21,7 +21,7 @@ const Members = () => {
     
         setUsers(newFilter)
         if (searchWord === "") {
-          console.log('XD')
+          console.log('EMPTY S')
           setUsers(allUsers);
         } else {
           searchWord(newFilter);
