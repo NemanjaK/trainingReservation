@@ -1,7 +1,7 @@
 package com.example.demo.controllers;
-import com.example.demo.Exception.NotFoundException;
 import com.example.demo.dto.LoginDTO;
 import com.example.demo.dto.UserDTO;
+import com.example.demo.exceptions.NotFoundException;
 import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.security.LoginResponse;
@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.security.Principal;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -55,36 +54,37 @@ public class UserController {
         this.userRepository = userRepository;
     }
 
-//    @PostMapping("/login")
-//    public ResponseEntity<?> login(@RequestBody LoginDTO user) {
-//        Optional<User> initUser = Optional.ofNullable(userService.findByEmail(user.getEmail())
-//                .orElseThrow(() -> new NotFoundException("User not found")));
-//
-//        if(initUser.get().isStatus() == false){
-//            initUser.get().setPassword(passwordEncoder.encode(user.getPassword()));
-//            initUser.get().setStatus(true);
-//            userRepository.save(initUser.get());
-//            UserDetails details = userDetailsService.loadUserByUsername(user.getEmail());
-//            return ResponseEntity.ok(new LoginResponse(tokenHelper.generateToken(details), initUser.get().getEmail(), initUser.get().getRole().getAuthority(),initUser.get().getMembershipExpirationDate()));
-//        }
-//        try {
-//            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword());
-//            authenticationManager.authenticate(token);
-//            UserDetails details = userDetailsService.loadUserByUsername(user.getEmail());
-//            User userData = userService.findByEmail(user.getEmail());
-//            return ResponseEntity.ok(new LoginResponse(tokenHelper.generateToken(details), userData.getEmail(), userData.getRole().getAuthority(), userData.getMembershipExpirationDate()));
-//        } catch (UsernameNotFoundException e) {
-//            e.getMessage();
-//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-//        }
-//    }
-    @PreAuthorize("hasAnyRole('USER','ADMINISTRATOR')")
-    @GetMapping("/profile")
-    public ResponseEntity<UserDTO> getProfile(Principal principal){
-        Optional<User?> user = userService.findByEmail(principal.getName());
-        UserDTO userDTO = new UserDTO(user);
-        return new ResponseEntity<UserDTO>(userDTO, HttpStatus.OK);
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody LoginDTO user) {
+        User initUser = userService.findByEmail(user.getEmail())
+                .orElseThrow(() -> new NotFoundException("Training by date not found!"));
+
+        if(initUser != null && initUser.isStatus() == false){
+            initUser.setPassword(passwordEncoder.encode(user.getPassword()));
+            initUser.setStatus(true);
+            userRepository.save(initUser);
+            UserDetails details = userDetailsService.loadUserByUsername(user.getEmail());
+            return ResponseEntity.ok(new LoginResponse(tokenHelper.generateToken(details), initUser.getEmail(), initUser.getRole().getAuthority(),initUser.getMembershipExpirationDate()));
+        }
+        try {
+            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword());
+            authenticationManager.authenticate(token);
+            UserDetails details = userDetailsService.loadUserByUsername(user.getEmail());
+            User userData = userService.findByEmail(user.getEmail())
+                    .orElseThrow(() -> new NotFoundException("Training by date not found!"));
+            return ResponseEntity.ok(new LoginResponse(tokenHelper.generateToken(details), userData.getEmail(), userData.getRole().getAuthority(), userData.getMembershipExpirationDate()));
+        } catch (UsernameNotFoundException e) {
+            e.getMessage();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
+//    @PreAuthorize("hasAnyRole('USER','ADMINISTRATOR')")
+//    @GetMapping("/profile")
+//    public ResponseEntity<UserDTO> getProfile(Principal principal){
+//        Optional<User?> user = userService.findByEmail(principal.getName());
+//        UserDTO userDTO = new UserDTO(user);
+//        return new ResponseEntity<UserDTO>(userDTO, HttpStatus.OK);
+//    }
 
     @PreAuthorize("hasAnyRole('USER','ADMINISTRATOR')")
     @GetMapping
@@ -109,16 +109,16 @@ public class UserController {
         return  new ResponseEntity<UserDTO>(userDTO, HttpStatus.OK);
     }
 
-    @PostMapping
-    public ResponseEntity<?> createUser(@RequestBody UserDTO userDTO){
-        System.out.println(userDTO);
-        User existUser = this.userService.findByEmail(userDTO.getEmail());
-        if(existUser == null){
-            User user = userService.addUser(userDTO);
-            return new ResponseEntity<User>(user, HttpStatus.OK) ;
-        }
-        return new ResponseEntity<>("User already exist!", HttpStatus.BAD_REQUEST);
-    }
+//    @PostMapping
+//    public ResponseEntity<?> createUser(@RequestBody UserDTO userDTO){
+//        System.out.println(userDTO);
+//        User existUser = this.userService.findByEmail(userDTO.getEmail());
+//        if(existUser == null){
+//            User user = userService.addUser(userDTO);
+//            return new ResponseEntity<User>(user, HttpStatus.OK) ;
+//        }
+//        return new ResponseEntity<>("User already exist!", HttpStatus.BAD_REQUEST);
+//    }
 
     @PutMapping(value = "/{id}")
     public ResponseEntity<UserDTO> updateProfile(@PathVariable("id") Long id, @RequestBody UserDTO userDetails){

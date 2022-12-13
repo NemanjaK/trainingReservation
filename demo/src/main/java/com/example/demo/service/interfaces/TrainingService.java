@@ -1,5 +1,6 @@
 package com.example.demo.service.interfaces;
 
+import com.example.demo.dto.TrainingDTO;
 import com.example.demo.model.Training;
 
 import java.time.LocalDate;
@@ -8,13 +9,13 @@ import java.util.Optional;
 
 public interface TrainingService {
 
-    Optional<Training> findOne(Long id);
+    TrainingDTO findOne(Long id);
 
     Training save(Training training);
 
     void delete(Training training);
 
-    Optional<Training> findTrainingByDateOfTraining(LocalDate dateOfTraining);
+    TrainingDTO findTrainingByDateOfTraining(LocalDate dateOfTraining);
 
     List<Training> findAllByDateOfTraining(LocalDate dateOfTraining);
 }

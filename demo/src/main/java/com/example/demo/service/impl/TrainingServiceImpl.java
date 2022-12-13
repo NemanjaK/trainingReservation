@@ -1,9 +1,14 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.dto.TrainingDTO;
+import com.example.demo.exceptions.NotFoundException;
+import com.example.demo.mapper.TrainingMapper;
 import com.example.demo.model.Training;
 import com.example.demo.repository.TrainingRepository;
 import com.example.demo.service.interfaces.TrainingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -16,9 +21,15 @@ public class TrainingServiceImpl implements TrainingService {
     @Autowired
     TrainingRepository trainingRepository;
 
+    @Autowired
+    TrainingMapper trainingMapper;
+
+
     @Override
-    public Optional<Training> findOne(Long id) {
-        return trainingRepository.findById(id);
+    public TrainingDTO findOne(Long id) {
+        return trainingRepository.findById(id)
+                .map(trainingMapper::convertToDto)
+                .orElseThrow(() -> new NotFoundException("Training not found!"));
     }
 
     @Override
@@ -32,8 +43,10 @@ public class TrainingServiceImpl implements TrainingService {
     }
 
     @Override
-    public Optional<Training> findTrainingByDateOfTraining(LocalDate dateOfTraining) {
-        return trainingRepository.findTrainingByDateOfTraining(dateOfTraining);
+    public TrainingDTO findTrainingByDateOfTraining(LocalDate dateOfTraining) {
+        return trainingRepository.findTrainingByDateOfTraining(dateOfTraining)
+                .map(trainingMapper::convertToDto)
+                .orElseThrow(() -> new NotFoundException("Training by date not found!"));
     }
 
     @Override

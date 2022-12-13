@@ -71,26 +71,26 @@ public class ReservationController {
         return new ResponseEntity<List<ReservationDTO>>(reservationDTOS, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/{id}")
-    public ResponseEntity<ReservationDTO> createReservation(@PathVariable("id") Long id, Principal p) {
-
-        Optional<User> user = userService.findByEmail(p.getName());
-        Term term = termService.findById(id);
-
-        Reservation reservation = new Reservation();
-        reservation.setTerm(term);
-        reservation.setUser(user.get());
-
-        int occupancy = term.getOccupancy();
-            if ( occupancy < 1) {
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            } else {
-                term.setOccupancy(occupancy - 1);
-                termService.save(term);
-                reservation = reservationService.save((reservation));
-                return new ResponseEntity<ReservationDTO>(new ReservationDTO(reservation), HttpStatus.CREATED);
-            }
-    }
+//    @PostMapping(value = "/{id}")
+//    public ResponseEntity<ReservationDTO> createReservation(@PathVariable("id") Long id, Principal p) {
+//
+//        Optional<User> user = userService.findByEmail(p.getName());
+//        Term term = termService.findById(id);
+//
+//        Reservation reservation = new Reservation();
+//        reservation.setTerm(term);
+//        reservation.setUser(user.get());
+//
+//        int occupancy = term.getOccupancy();
+//            if ( occupancy < 1) {
+//                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//            } else {
+//                term.setOccupancy(occupancy - 1);
+//                termService.save(term);
+//                reservation = reservationService.save((reservation));
+//                return new ResponseEntity<ReservationDTO>(new ReservationDTO(reservation), HttpStatus.CREATED);
+//            }
+//    }
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteReservation(@PathVariable("id") Long id){

@@ -40,52 +40,32 @@ public class TermController {
 
     @GetMapping(value = "/today")
     public ResponseEntity<List<TermDTO>> getDayTerms(){
-        List<Term> terms = termService.findAllWithDates(YESTERDAY, TOMORROW);
-        List<TermDTO> termsDTO =  new ArrayList<>();
-        terms.forEach(term -> termsDTO.add(new TermDTO(term)));
-        return new ResponseEntity<>(termsDTO,HttpStatus.OK);
+        return new ResponseEntity<>(termService.getTodayTerms(YESTERDAY, TOMORROW),HttpStatus.OK);
     }
 
     @GetMapping(value = "/termsByDay/{day}")
     public ResponseEntity<List<TermDTO>> getTermsByDay(@PathVariable("day") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate day){
-        List<Term> terms = termService.findAllByDay(day);
-        List<TermDTO> termsDTO =  new ArrayList<>();
-        terms.forEach(term -> termsDTO.add(new TermDTO(term)));
-        return new ResponseEntity<>(termsDTO,HttpStatus.OK);
+        return new ResponseEntity<>(termService.findAllByDay(day), HttpStatus.OK);
     }
     @GetMapping
-    public ResponseEntity<List<TermDTO>> getAll(){
-        List<Term> terms = termService.findAll();
-        List<TermDTO> termsDTO =  new ArrayList<>();
-        terms.forEach(term -> termsDTO.add(new TermDTO(term)));
-        return new ResponseEntity<>(termsDTO,HttpStatus.OK);
+    public ResponseEntity<List<TermDTO>> getAllTerms(){
+        return new ResponseEntity<>(termService.findAll(), HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<TermDTO> getOneTerm(@PathVariable("id") Long id){
-        return termService.findOne(id)
-                .map(term -> new TermDTO(term))
-                .map(termDTO -> new ResponseEntity<TermDTO>(termDTO, HttpStatus.OK))
-                .orElseThrow(() -> new NotFoundException("Term not found!"));
+        return new ResponseEntity<>(termService.findOne(id), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<TermDTO> createTerm(@RequestBody TermDTO termDTO){
-
-        Term term = new Term();
-        term.setTime(termDTO.getTime());
-        term.setOccupancy(termDTO.getOccupancy());
-        term.setTypeOfTraining(termDTO.getTypeOfTraining());
-        term = termService.save(term);
-
-        return  new ResponseEntity<>(new TermDTO(term), HttpStatus.CREATED);
+    public ResponseEntity<Void> createTerm(@RequestBody TermDTO termDTO){
+        termService.save(termDTO);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteTerm(@PathVariable("id") Long id){
-        Term term = termService.findOne(id)
-                .orElseThrow(() -> new NotFoundException("Term not found!"));
-        termService.delete(term);
-        return new ResponseEntity<>(HttpStatus.OK);
+       termService.delete(id);
+       return new ResponseEntity<>(HttpStatus.OK);
     }
 }

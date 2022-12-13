@@ -1,9 +1,8 @@
 package com.example.demo.controllers;
-import com.example.demo.Exception.NotFoundException;
 import com.example.demo.dto.ResultDTO;
+import com.example.demo.exceptions.NotFoundException;
 import com.example.demo.model.Result;
 import com.example.demo.model.User;
-import com.example.demo.service.impl.ResultServiceImpl;
 import com.example.demo.service.interfaces.ResultService;
 import com.example.demo.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @RestController

@@ -1,5 +1,6 @@
 package com.example.demo.repository;
 
+import com.example.demo.dto.TermDTO;
 import com.example.demo.model.Term;
 import org.apache.tomcat.jni.Local;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,6 +13,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface TermRepository extends JpaRepository<Term, Long> {
