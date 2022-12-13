@@ -3,12 +3,13 @@ package com.example.demo.service.interfaces;
 import com.example.demo.model.Result;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ResultService {
 
     List<Result> findAll();
 
-    Result findOne(Long id);
+    Optional<Result> findOne(Long id);
 
     Result save(Result result);
 

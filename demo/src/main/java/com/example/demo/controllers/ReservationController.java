@@ -19,6 +19,7 @@ import org.springframework.data.domain.Pageable;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/reservations")
@@ -35,10 +36,12 @@ public class ReservationController {
 
     @GetMapping
     public ResponseEntity<?> getAll(Pageable pageable){
+        List<ReservationDTO> reservationsDTOS =  new ArrayList<>();
         Page<Reservation> reservations = reservationService.findAll(pageable);
-        List<ReservationDTO> reservationsDTOS =  new ArrayList<ReservationDTO>();
+
         HttpHeaders headers = new HttpHeaders();
         headers.set("total", String.valueOf(reservations.getTotalPages()));
+
         reservations.getContent().forEach(reservation -> reservationsDTOS.add(new ReservationDTO(reservation)));
 
         return  ResponseEntity.ok().headers(headers).body(reservationsDTOS);
@@ -57,8 +60,8 @@ public class ReservationController {
 
     @GetMapping(value = "/myReservation")
     public ResponseEntity<List<ReservationDTO>> myReservation(Principal p){
-        User user = userService.findByEmail(p.getName());
-        Long userId = user.getId();
+        Optional<User> user = userService.findByEmail(p.getName());
+        Long userId = user.get().getId();
 
         List<Reservation> reservations =  reservationService.findAllById(userId);
         List<ReservationDTO> reservationDTOS = new ArrayList<>();
@@ -71,12 +74,12 @@ public class ReservationController {
     @PostMapping(value = "/{id}")
     public ResponseEntity<ReservationDTO> createReservation(@PathVariable("id") Long id, Principal p) {
 
-        User user = userService.findByEmail(p.getName());
+        Optional<User> user = userService.findByEmail(p.getName());
         Term term = termService.findById(id);
 
         Reservation reservation = new Reservation();
         reservation.setTerm(term);
-        reservation.setUser(user);
+        reservation.setUser(user.get());
 
         int occupancy = term.getOccupancy();
             if ( occupancy < 1) {

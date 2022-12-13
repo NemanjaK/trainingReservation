@@ -1,4 +1,5 @@
 package com.example.demo.controllers;
+import com.example.demo.Exception.NotFoundException;
 import com.example.demo.dto.LoginDTO;
 import com.example.demo.dto.UserDTO;
 import com.example.demo.model.User;
@@ -27,6 +28,7 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/users")
@@ -53,34 +55,37 @@ public class UserController {
         this.userRepository = userRepository;
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginDTO user) {
-        User initUser = userService.findByEmail(user.getEmail());
-        if(initUser != null && initUser.isStatus() == false){
-            initUser.setPassword(passwordEncoder.encode(user.getPassword()));
-            initUser.setStatus(true);
-            userRepository.save(initUser);
-            UserDetails details = userDetailsService.loadUserByUsername(user.getEmail());
-            return ResponseEntity.ok(new LoginResponse(tokenHelper.generateToken(details), initUser.getEmail(), initUser.getRole().getAuthority(),initUser.getMembershipExpirationDate()));
-        }
-        try {
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword());
-            authenticationManager.authenticate(token);
-            UserDetails details = userDetailsService.loadUserByUsername(user.getEmail());
-            User userData = userService.findByEmail(user.getEmail());
-            return ResponseEntity.ok(new LoginResponse(tokenHelper.generateToken(details), userData.getEmail(), userData.getRole().getAuthority(), userData.getMembershipExpirationDate()));
-        } catch (UsernameNotFoundException e) {
-            e.getMessage();
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-    }
+//    @PostMapping("/login")
+//    public ResponseEntity<?> login(@RequestBody LoginDTO user) {
+//        Optional<User> initUser = Optional.ofNullable(userService.findByEmail(user.getEmail())
+//                .orElseThrow(() -> new NotFoundException("User not found")));
+//
+//        if(initUser.get().isStatus() == false){
+//            initUser.get().setPassword(passwordEncoder.encode(user.getPassword()));
+//            initUser.get().setStatus(true);
+//            userRepository.save(initUser.get());
+//            UserDetails details = userDetailsService.loadUserByUsername(user.getEmail());
+//            return ResponseEntity.ok(new LoginResponse(tokenHelper.generateToken(details), initUser.get().getEmail(), initUser.get().getRole().getAuthority(),initUser.get().getMembershipExpirationDate()));
+//        }
+//        try {
+//            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword());
+//            authenticationManager.authenticate(token);
+//            UserDetails details = userDetailsService.loadUserByUsername(user.getEmail());
+//            User userData = userService.findByEmail(user.getEmail());
+//            return ResponseEntity.ok(new LoginResponse(tokenHelper.generateToken(details), userData.getEmail(), userData.getRole().getAuthority(), userData.getMembershipExpirationDate()));
+//        } catch (UsernameNotFoundException e) {
+//            e.getMessage();
+//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//        }
+//    }
     @PreAuthorize("hasAnyRole('USER','ADMINISTRATOR')")
     @GetMapping("/profile")
     public ResponseEntity<UserDTO> getProfile(Principal principal){
-        User user = userService.findByEmail(principal.getName());
+        Optional<User?> user = userService.findByEmail(principal.getName());
         UserDTO userDTO = new UserDTO(user);
         return new ResponseEntity<UserDTO>(userDTO, HttpStatus.OK);
     }
+
     @PreAuthorize("hasAnyRole('USER','ADMINISTRATOR')")
     @GetMapping
     public ResponseEntity<?> getAll(Pageable pagable){
