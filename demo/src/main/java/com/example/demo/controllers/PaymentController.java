@@ -15,7 +15,6 @@ public class PaymentController {
     @Autowired
     PaymentService paymentService;
 
-
     @PostMapping("/create")
     public String createPayment(@RequestHeader(value = "amount") double amount, @RequestHeader(value = "username") String username,
                                 @RequestHeader(value = "email") String email) throws StripeException {
