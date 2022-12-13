@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TrainingServiceImpl implements TrainingService {
@@ -16,8 +17,8 @@ public class TrainingServiceImpl implements TrainingService {
     TrainingRepository trainingRepository;
 
     @Override
-    public Training findOne(Long id) {
-        return trainingRepository.getById(id);
+    public Optional<Training> findOne(Long id) {
+        return trainingRepository.findById(id);
     }
 
     @Override
@@ -31,7 +32,7 @@ public class TrainingServiceImpl implements TrainingService {
     }
 
     @Override
-    public Training findTrainingByDateOfTraining(LocalDate dateOfTraining) {
+    public Optional<Training> findTrainingByDateOfTraining(LocalDate dateOfTraining) {
         return trainingRepository.findTrainingByDateOfTraining(dateOfTraining);
     }
 

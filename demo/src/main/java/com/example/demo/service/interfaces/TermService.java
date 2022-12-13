@@ -1,24 +1,22 @@
 package com.example.demo.service.interfaces;
 
 import com.example.demo.model.Term;
-import org.apache.tomcat.jni.Local;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 public interface TermService {
     List<Term> findAll();
 
     List<Term> findAllByDate(LocalDate time);
 
-    Term findById(Long id);
+    Optional<Term> findById(Long id);
 
     List<Term> findAllByDay(LocalDate time);
 
     List<Term> findAllWithDates(LocalDate yesterday, LocalDate tomorow);
-    Term findOne(Long id);
+    Optional<Term> findOne(Long id);
 
     Term save(Term term);
 
