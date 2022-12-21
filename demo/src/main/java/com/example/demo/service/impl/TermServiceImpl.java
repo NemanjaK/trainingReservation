@@ -23,11 +23,16 @@ import java.util.stream.Collectors;
 @Service
 public class TermServiceImpl implements TermService {
 
-    @Autowired
+
     TermRepository termRepository;
 
-    @Autowired
     TermMapper termMapper;
+
+    @Autowired
+    public TermServiceImpl(TermRepository termRepository, TermMapper termMapper){
+        this.termRepository = termRepository;
+        this.termMapper = termMapper;
+    }
 
     @Override
     public List<TermDTO> findAll() {

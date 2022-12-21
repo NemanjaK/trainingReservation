@@ -15,8 +15,4 @@ public class TrainingMapper {
                 .setMatchingStrategy(MatchingStrategies.LOOSE);
         return modelMapper.map(training, TrainingDTO.class);
     }
-
-    public Training convertToEntity(TrainingDTO trainingDTO){
-        return modelMapper.map(trainingDTO, Training.class);
-    }
 }

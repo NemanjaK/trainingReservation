@@ -1,9 +1,17 @@
 package com.example.demo.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 public class Reservation {
     @Id
@@ -20,41 +28,4 @@ public class Reservation {
     @JoinColumn
     private Term term;
 
-    public Reservation() {
-    }
-
-    public Reservation(long id, Term term) {
-        this.id = id;
-        this.term = term;
-    }
-
-    public Reservation(long id, User user, Term term) {
-        this.id = id;
-        this.user = user;
-        this.term = term;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public Term getTerm() {
-        return term;
-    }
-
-    public void setTerm(Term term) {
-        this.term = term;
-    }
 }

@@ -1,7 +1,9 @@
 package com.example.demo.service.interfaces;
 
+import com.example.demo.dto.ResultDTO;
 import com.example.demo.model.Result;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,9 +11,9 @@ public interface ResultService {
 
     List<Result> findAll();
 
-    Optional<Result> findOne(Long id);
+    ResultDTO findOne(Long id);
 
-    Result save(Result result);
+    Result save(ResultDTO resultDTO, Principal principal);
 
     void delete(Result result);
 }

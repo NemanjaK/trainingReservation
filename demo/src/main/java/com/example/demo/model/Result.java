@@ -1,9 +1,16 @@
 package com.example.demo.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
-
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 public class Result {
     @Id
@@ -16,45 +23,4 @@ public class Result {
     @JoinColumn
     private User user;
 
-    public Result() {
-    }
-
-    public Result(Long id, String time, String numbersOfrounds, User user) {
-        this.id = id;
-        this.time = time;
-        this.numbersOfrounds = numbersOfrounds;
-        this.user = user;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
-    }
-
-    public String getNumbersOfrounds() {
-        return numbersOfrounds;
-    }
-
-    public void setNumbersOfrounds(String numbersOfrounds) {
-        this.numbersOfrounds = numbersOfrounds;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 }

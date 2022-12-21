@@ -22,10 +22,14 @@ public class UserDTO {
     @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate membershipExpirationDate;
 
+    private boolean status;
+
+
     public UserDTO() {
     }
 
-    public UserDTO(long id, String name, String lastName, String password, String email, String phoneNumber, Role role, TrainingType trainingType,LocalDate membershipExpirationDate) {
+    public UserDTO(long id, String name, String lastName, String password, String email, String phoneNumber,
+                   Role role, TrainingType trainingType,LocalDate membershipExpirationDate, boolean status) {
         this.id = id;
         this.name = name;
         this.lastName = lastName;
@@ -35,10 +39,11 @@ public class UserDTO {
         this.phoneNumber = phoneNumber;
         this.trainingType = trainingType;
         this.membershipExpirationDate = membershipExpirationDate;
+        this.status = status;
     }
 
     public UserDTO(User k) {
-        this(k.getId(),k.getName(),k.getLastName(),k.getPassword(),k.getEmail(),k.getPhoneNumber(), k.getRole(), k.getTrainingType(), k.getMembershipExpirationDate());
+        this(k.getId(),k.getName(),k.getLastName(),k.getPassword(),k.getEmail(),k.getPhoneNumber(), k.getRole(), k.getTrainingType(), k.getMembershipExpirationDate(), k.isStatus());
     }
 
 
@@ -112,5 +117,13 @@ public class UserDTO {
 
     public void setMembershipExpirationDate(LocalDate membershipExpirationDate) {
         this.membershipExpirationDate = membershipExpirationDate;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 }

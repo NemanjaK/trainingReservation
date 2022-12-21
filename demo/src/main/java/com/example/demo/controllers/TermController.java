@@ -1,28 +1,14 @@
 package com.example.demo.controllers;
-import com.example.demo.dto.ReservationDTO;
 import com.example.demo.dto.TermDTO;
-import com.example.demo.exceptions.NotFoundException;
-import com.example.demo.model.Term;
 import com.example.demo.service.interfaces.TermService;
-import com.sun.tools.jconsole.JConsoleContext;
-import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.text.SimpleDateFormat;
-import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalAdjusters;
-import java.time.temporal.WeekFields;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/api/terms")
