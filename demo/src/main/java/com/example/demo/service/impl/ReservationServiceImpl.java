@@ -55,7 +55,6 @@ public class ReservationServiceImpl implements ReservationService {
         reservations.getContent().forEach(reservation -> reservationsDTOS.add(new ReservationDTO(reservation)));
 
         return ResponseEntity.ok().headers(headers).body(reservationsDTOS);
-
     }
 
     @Override
